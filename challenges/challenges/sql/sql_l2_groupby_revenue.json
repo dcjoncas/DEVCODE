@@ -1,0 +1,9 @@
+{
+  "id": "sql-l2-1",
+  "title": "Customer Revenue (Paid Invoices)",
+  "language": "sql",
+  "level": 2,
+  "prompt": "Tables (SQLite):\n- Customers(id, name)\n- Projects(id, name, customer_id)\n- Invoices(id, project_id, amount, status, issued_date)\n\nReturn total paid invoice amount per customer (only status='PAID'), ordered by total_amount desc. Starter query has a GROUP BY bug.",
+  "starterCode": "SELECT c.name, SUM(i.amount) AS total_amount\nFROM Customers c\nJOIN Projects p ON p.customer_id = c.id\nJOIN Invoices i ON i.project_id = p.id\nWHERE i.status = 'PAID'\nGROUP BY c.id, c.name, i.amount\nORDER BY total_amount DESC;\n",
+  "solutionCode": "SELECT c.name, SUM(i.amount) AS total_amount\nFROM Customers c\nJOIN Projects p ON p.customer_id = c.id\nJOIN Invoices i ON i.project_id = p.id\nWHERE i.status = 'PAID'\nGROUP BY c.id, c.name\nORDER BY total_amount DESC;\n"
+}

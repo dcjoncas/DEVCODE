@@ -1,0 +1,9 @@
+{
+  "id": "py-fib-l1-1",
+  "title": "Fix Fibonacci Base Case",
+  "language": "python",
+  "level": 1,
+  "prompt": "Implement fib(n) that returns the nth Fibonacci number with fib(0)=0, fib(1)=1. The starter code has a small base-case bug. Fix it.",
+  "starterCode": "def fib(n: int) -> int:\n    # BUG: base case is wrong\n    if n <= 1:\n        return 1\n    return fib(n - 1) + fib(n - 2)\n\nif __name__ == \"__main__\":\n    print(fib(0))  # 0\n    print(fib(1))  # 1\n    print(fib(6))  # 8\n",
+  "solutionCode": "def fib(n: int) -> int:\n    if n <= 1:\n        return n\n    return fib(n - 1) + fib(n - 2)\n\nif __name__ == \"__main__\":\n    print(fib(0))  # 0\n    print(fib(1))  # 1\n    print(fib(6))  # 8\n"
+}

@@ -1,0 +1,9 @@
+{
+  "id": "py-fib-l2-1",
+  "title": "Fibonacci with Memoization",
+  "language": "python",
+  "level": 2,
+  "prompt": "Implement fib(n) efficiently using memoization (top-down). The starter code intends to use a memo dict but has a bug. Fix it so fib(35) runs fast.",
+  "starterCode": "def fib(n: int, memo=None) -> int:\n    # Intended: memoization\n    if memo is None:\n        memo = {}\n\n    if n in memo:\n        return memo[n]\n\n    if n <= 1:\n        return n\n\n    # BUG: forgetting to pass memo\n    memo[n] = fib(n - 1) + fib(n - 2)\n    return memo[n]\n\nif __name__ == \"__main__\":\n    print(fib(10))   # 55\n    print(fib(35))   # 9227465\n",
+  "solutionCode": "def fib(n: int, memo=None) -> int:\n    if memo is None:\n        memo = {}\n\n    if n in memo:\n        return memo[n]\n\n    if n <= 1:\n        return n\n\n    memo[n] = fib(n - 1, memo) + fib(n - 2, memo)\n    return memo[n]\n\nif __name__ == \"__main__\":\n    print(fib(10))   # 55\n    print(fib(35))   # 9227465\n"
+}

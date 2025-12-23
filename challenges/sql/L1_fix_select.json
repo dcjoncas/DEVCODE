@@ -1,0 +1,9 @@
+﻿{
+  "id": "sql_l1_fix_select",
+  "title": "Fix a broken SELECT",
+  "language": "sql",
+  "level": 1,
+  "prompt": "Fix the query so it returns all customers in Texas (TX).",
+  "starterCode": "SELECT * form Customers WHERE State = 'TX';",
+  "notes": "Candidate should fix 'form' -> 'FROM'."
+}

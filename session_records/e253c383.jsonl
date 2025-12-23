@@ -1,0 +1,11 @@
+{"ts":1766458407915,"sessionId":"e253c383","type":"challengeLoaded","source":"library","id":"py-fib-l1-1","language":"python","level":1}
+{"ts":1766458408053,"sessionId":"e253c383","type":"languageUpdate","lang":"python"}
+{"ts":1766458408054,"sessionId":"e253c383","type":"challengeUpdate","id":"py-fib-l1-1","source":"library","title":"Fix Fibonacci Base Case","prompt":"Implement fib(n) that returns the nth Fibonacci number with fib(0)=0, fib(1)=1. The starter code has a small base-case bug. Fix it.","language":"python","level":1}
+{"ts":1766458422846,"sessionId":"e253c383","type":"codeSnapshot","reason":"run","code":"def fib(n: int) -> int:\n    # BUG: base case is wrong\n    if n <= 1:\n        return 1\n    return fib(n - 1) + fib(n - 2)\n\nif __name__ == \"__main__\":\n    print(fib(0))  # 0\n    print(fib(1))  # 1\n    print(fib(6))  # 8\n","truncated":false}
+{"ts":1766458422848,"sessionId":"e253c383","type":"run","language":"python","codeLength":218}
+{"ts":1766458423025,"sessionId":"e253c383","type":"runResult","output":"1\r\n1\r\n13\r\n","truncated":false}
+{"ts":1766458423026,"sessionId":"e253c383","type":"outputSnapshot","text":"1\r\n1\r\n13\r\n","truncated":false,"reason":"run_finish"}
+{"ts":1766458466573,"sessionId":"e253c383","type":"codeSnapshot","reason":"run","code":"\n\ndef fib(n: int) -> int:\n    if n <= 1:\n        return n\n    return fib(n - 1) + fib(n - 2)\n\nif __name__ == \"__main__\":\n    print(fib(0))  # 0\n    print(fib(1))  # 1\n    print(fib(6))  # 8\n\n","truncated":false}
+{"ts":1766458466574,"sessionId":"e253c383","type":"run","language":"python","codeLength":191}
+{"ts":1766458466717,"sessionId":"e253c383","type":"runResult","output":"0\r\n1\r\n8\r\n","truncated":false}
+{"ts":1766458466717,"sessionId":"e253c383","type":"outputSnapshot","text":"0\r\n1\r\n8\r\n","truncated":false,"reason":"run_finish"}

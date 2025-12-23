@@ -1,0 +1,5 @@
+{"ts":1766441798159,"sessionId":"4100f643","type":"sessionEnded","reason":"expired"}
+{"ts":1766443734325,"sessionId":"4100f643","type":"disconnect","socketId":"mp4d9SRfX0RGdB5OAAAJ","reason":"ping timeout"}
+{"ts":1766453443158,"sessionId":"4100f643","type":"disconnect","socketId":"mzJEb2dq6K9HDQ_BAAAN","reason":"transport close"}
+{"ts":1766453456498,"sessionId":"4100f643","type":"sessionEnded","reason":"ended_by_host"}
+{"ts":1766453456506,"sessionId":"4100f643","type":"disconnect","socketId":"dI8eq_ibb5xYb6BRAAAP","reason":"transport close"}

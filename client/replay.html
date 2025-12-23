@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Replay</title>
+    <link rel="stylesheet" href="/style.css" />
+    <style>
+        .wrap {
+            padding: 12px 18px;
+        }
+
+        .topbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            padding: 12px 18px;
+            background: #fff;
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+            margin-bottom: 12px;
+        }
+
+        .controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .slider {
+            width: 420px;
+        }
+
+        .meta {
+            color: #6b7280;
+            font-size: 0.9rem;
+        }
+
+        .name {
+            font-weight: 800;
+            color: #111827;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrap">
+        <div class="topbar">
+            <div>
+                <div style="font-weight:900;">Replay</div>
+                <div class="meta" id="meta"></div>
+            </div>
+
+            <div class="controls">
+                <button id="play">Play</button>
+                <button id="pause" disabled>Pause</button>
+                <label class="meta">Speed:</label>
+                <select id="speed">
+                    <option value="1">1x</option>
+                    <option value="2">2x</option>
+                    <option value="4">4x</option>
+                    <option value="8">8x</option>
+                </select>
+                <input id="slider" class="slider" type="range" min="0" max="0" value="0" />
+                <span class="meta" id="pos">0/0</span>
+            </div>
+        </div>
+
+        <main class="dr-main" style="height: calc(100vh - 140px);">
+            <section class="dr-left">
+                <div class="dr-toolbar">
+                    <div class="dr-toolbar-left">
+                        <label>Language:</label>
+                        <select id="language" disabled>
+                            <option value="python">Python</option>
+                            <option value="javascript">JavaScript</option>
+                            <option value="sql">SQL (SQLite)</option>
+                            <option value="csharp">C#</option>
+                            <option value="java">Java</option>
+                        </select>
+                    </div>
+                    <div class="meta" id="event-type"></div>
+                </div>
+
+                <div class="dr-editor-wrap">
+                    <pre id="line-numbers" class="dr-lines">1</pre>
+                    <textarea id="editor" spellcheck="false" disabled></textarea>
+                </div>
+            </section>
+
+            <section class="dr-right">
+                <h3>Output</h3>
+                <pre id="output"></pre>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        const editor = document.getElementById("editor");
+        const output = document.getElementById("output");
+        const langSel = document.getElementById("language");
+        const lineNumbers = document.getElementById("line-numbers");
+        const meta = document.getElementById("meta");
+        const eventTypeEl = document.getElementById("event-type");
+
+        const slider = document.getElementById("slider");
+        const pos = document.getElementById("pos");
+        const playBtn = document.getElementById("play");
+        const pauseBtn = document.getElementById("pause");
+        const speedSel = document.getElementById("speed");
+
+        const sessionId = location.pathname.split("/").filter(Boolean)[1];
+        let events = [];
+        let timer = null;
+
+        function updateLineNumbers() {
+            const text = editor.value || "";
+            const lineCount = Math.max(1, text.split("\n").length);
+            let out = "";
+            for (let i = 1; i <= lineCount; i++) out += i + (i === lineCount ? "" : "\n");
+            lineNumbers.textContent = out;
+        }
+
+        function applyUpTo(idx) {
+            let code = "";
+            let out = "";
+            let lang = "python";
+            let lastType = "";
+
+            for (let i = 0; i <= idx; i++) {
+                const e = events[i];
+                if (!e) continue;
+                lastType = e.type || "";
+
+                if (e.type === "codeSnapshot" && typeof e.code === "string") code = e.code;
+                if (e.type === "languageUpdate" && e.lang) lang = e.lang;
+
+                if (e.type === "outputSnapshot" && typeof e.text === "string") out = e.text;
+                if (e.type === "runResult" && typeof e.output === "string") out = e.output;
+
+                if (e.type === "hintResponse" && typeof e.hint === "string") {
+                    out = (out ? out + "\n\n" : "") + "[HINT]\n" + e.hint;
+                }
+            }
+
+            editor.value = code;
+            output.textContent = out;
+            langSel.value = lang;
+            eventTypeEl.textContent = lastType;
+
+            updateLineNumbers();
+        }
+
+        function setSlider(i) {
+            slider.value = String(i);
+            pos.textContent = `${i + 1}/${events.length}`;
+        }
+
+        function stopPlay() {
+            if (timer) clearInterval(timer);
+            timer = null;
+            playBtn.disabled = false;
+            pauseBtn.disabled = true;
+        }
+
+        function startPlay() {
+            if (timer) return;
+            playBtn.disabled = true;
+            pauseBtn.disabled = false;
+
+            timer = setInterval(() => {
+                let i = parseInt(slider.value, 10);
+                if (i >= events.length - 1) { stopPlay(); return; }
+                i += 1;
+                applyUpTo(i);
+                setSlider(i);
+            }, Math.max(40, 280 / parseInt(speedSel.value, 10)));
+        }
+
+        playBtn.onclick = startPlay;
+        pauseBtn.onclick = stopPlay;
+
+        slider.oninput = () => {
+            stopPlay();
+            const i = parseInt(slider.value, 10);
+            applyUpTo(i);
+            setSlider(i);
+        };
+
+        async function load() {
+            const r = await fetch(`/api/record/${sessionId}`);
+            const j = await r.json();
+            events = j.events || [];
+            const cand = (j.candidateName || "").trim();
+
+            meta.innerHTML =
+                `Session: <strong>${sessionId}</strong>` +
+                (cand ? ` · <span class="name">Candidate: ${cand}</span>` : ``) +
+                ` · Events: ${events.length}`;
+
+            slider.max = Math.max(0, events.length - 1);
+            slider.value = "0";
+
+            if (events.length) {
+                applyUpTo(0);
+                setSlider(0);
+            } else {
+                pos.textContent = "0/0";
+            }
+        }
+
+        load().catch(e => {
+            meta.textContent = "Error loading record: " + e.message;
+        });
+    </script>
+</body>
+
+</html>

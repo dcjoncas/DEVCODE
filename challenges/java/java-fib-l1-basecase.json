@@ -1,0 +1,9 @@
+{
+  "id": "java-fib-l1-basecase",
+  "title": "Fix Base Case",
+  "language": "java",
+  "level": 1,
+  "prompt": "Fix the bug so fib(0)=0 and fib(6)=8.",
+  "starterCode": "public class Main {\n  static int fib(int n) {\n    if (n == 0) return 1; // BUG\n    if (n == 1) return 1;\n    return fib(n-1) + fib(n-2);\n  }\n\n  public static void main(String[] args) {\n    System.out.println(fib(0));\n    System.out.println(fib(6));\n  }\n}\n",
+  "solutionCode": "public class Main {\n  static int fib(int n) {\n    if (n == 0) return 0;\n    if (n == 1) return 1;\n    return fib(n-1) + fib(n-2);\n  }\n\n  public static void main(String[] args) {\n    System.out.println(fib(0));\n    System.out.println(fib(6));\n  }\n}\n"
+}

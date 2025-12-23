@@ -1,0 +1,13 @@
+{"ts":1766342686873,"sessionId":"4c2b73f7","type":"disconnect","socketId":"ctOzHe7iSVTWFUZuAAAD","reason":"transport close"}
+{"ts":1766342784409,"sessionId":"4c2b73f7","type":"disconnect","socketId":"BcQ2nJWlPrseK19zAAAF","reason":"transport close"}
+{"ts":1766342791679,"sessionId":"4c2b73f7","type":"disconnect","socketId":"_zwQc48pdUyq1hplAAAH","reason":"transport close"}
+{"ts":1766342794156,"sessionId":"4c2b73f7","type":"disconnect","socketId":"v4UvqKFrUNnVH0eOAAAJ","reason":"transport close"}
+{"ts":1766342799558,"sessionId":"4c2b73f7","type":"outputSnapshot","text":"[CHALLENGE ERROR]\nJSON.parse: unexpected character at line 1 column 1 of the JSON data","truncated":false,"reason":"client_outputUpdate"}
+{"ts":1766342808054,"sessionId":"4c2b73f7","type":"outputSnapshot","text":"[AI CHALLENGE ERROR]\nJSON.parse: unexpected character at line 1 column 1 of the JSON data","truncated":false,"reason":"client_outputUpdate"}
+{"ts":1766342853486,"sessionId":"4c2b73f7","type":"candidateMetaUpdate","first":"Mike","last":"S","source":"candidate_join"}
+{"ts":1766342877397,"sessionId":"4c2b73f7","type":"languageUpdate","lang":"sql"}
+{"ts":1766342880492,"sessionId":"4c2b73f7","type":"outputSnapshot","text":"[AI CHALLENGE ERROR]\nJSON.parse: unexpected character at line 1 column 1 of the JSON data","truncated":false,"reason":"client_outputUpdate"}
+{"ts":1766342885606,"sessionId":"4c2b73f7","type":"hintRequested","hintsLeft":2}
+{"ts":1766342897388,"sessionId":"4c2b73f7","type":"hintResponse","hint":"The judge is trying to JSON.parse your output, but your program/query isn’t returning valid JSON (or includes extra text). Make sure the only thing printed is a single valid JSON object/array—no headers, prompts, or debug lines. In SQL, construct the result explicitly as JSON (e.g., Postgres: json_build_object/row_to_json; MySQL: JSON_OBJECT) and return it as a single column with a single row. Double-check there are no trailing commas or extra rows.","truncated":false,"hintsLeft":2}
+{"ts":1766344487588,"sessionId":"4c2b73f7","type":"sessionEnded","reason":"expired"}
+{"ts":1766347940913,"sessionId":"4c2b73f7","type":"disconnect","socketId":"NY_y5gGMG4PTfx8oAAAN","reason":"transport close"}

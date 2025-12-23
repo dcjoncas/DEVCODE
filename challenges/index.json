@@ -1,0 +1,5 @@
+﻿{
+  "version": 1,
+  "notes": "Starter challenge catalog. Add more items as JSON files and reference here (optional).",
+  "languages": ["sql","python","javascript","csharp","java"]
+}

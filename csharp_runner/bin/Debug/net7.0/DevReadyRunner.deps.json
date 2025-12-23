@@ -1,0 +1,23 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v7.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v7.0": {
+      "DevReadyRunner/1.0.0": {
+        "runtime": {
+          "DevReadyRunner.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "DevReadyRunner/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

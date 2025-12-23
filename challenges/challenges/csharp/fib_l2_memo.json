@@ -1,0 +1,9 @@
+{
+  "id": "cs-fib-l2-1",
+  "title": "Fibonacci with Memoization (C#)",
+  "language": "csharp",
+  "level": 2,
+  "prompt": "Compute Fib(n) efficiently using memoization. Starter code forgets to store results in the dictionary.",
+  "starterCode": "using System;\nusing System.Collections.Generic;\n\nstatic int Fib(int n, Dictionary<int,int> memo)\n{\n    if (memo.ContainsKey(n)) return memo[n];\n    if (n <= 1) return n;\n\n    int value = Fib(n - 1, memo) + Fib(n - 2, memo);\n    // BUG: never stores in memo\n    return value;\n}\n\nvar memo = new Dictionary<int,int>();\nConsole.WriteLine(Fib(10, memo)); // 55\nConsole.WriteLine(Fib(35, memo)); // 9227465\n",
+  "solutionCode": "using System;\nusing System.Collections.Generic;\n\nstatic int Fib(int n, Dictionary<int,int> memo)\n{\n    if (memo.ContainsKey(n)) return memo[n];\n    if (n <= 1) return n;\n\n    int value = Fib(n - 1, memo) + Fib(n - 2, memo);\n    memo[n] = value;\n    return value;\n}\n\nvar memo = new Dictionary<int,int>();\nConsole.WriteLine(Fib(10, memo)); // 55\nConsole.WriteLine(Fib(35, memo)); // 9227465\n"
+}

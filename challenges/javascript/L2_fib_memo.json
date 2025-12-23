@@ -1,0 +1,8 @@
+﻿{
+  "id": "js_l2_fib_memo",
+  "title": "Fibonacci with memoization",
+  "language": "javascript",
+  "level": 2,
+  "prompt": "Implement fib(n) with memoization; avoid recomputation.",
+  "starterCode": "function fib(n, memo = {}) {\n  // TODO\n}\n\nconsole.log(fib(40));\n"
+}

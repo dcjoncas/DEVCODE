@@ -1,0 +1,9 @@
+{
+  "id": "java-fib-l3-1",
+  "title": "Fast Fibonacci Mod (Java)",
+  "language": "java",
+  "level": 3,
+  "prompt": "Return fib(n) modulo 1_000_000_007 for n up to 1,000,000. Replace recursion with an iterative solution.",
+  "starterCode": "public class Main {\n  static final long MOD = 1_000_000_007L;\n\n  static long fibMod(int n) {\n    // too slow + BUG: base case wrong\n    if (n <= 1) return 1;\n    return (fibMod(n - 1) + fibMod(n - 2)) % MOD;\n  }\n\n  public static void main(String[] args) {\n    System.out.println(fibMod(0));    // 0\n    System.out.println(fibMod(1));    // 1\n    System.out.println(fibMod(1000)); // should run quickly\n  }\n}\n",
+  "solutionCode": "public class Main {\n  static final long MOD = 1_000_000_007L;\n\n  static long fibMod(int n) {\n    if (n <= 1) return n;\n    long a = 0, b = 1;\n    for (int i = 2; i <= n; i++) {\n      long c = (a + b) % MOD;\n      a = b;\n      b = c;\n    }\n    return b;\n  }\n\n  public static void main(String[] args) {\n    System.out.println(fibMod(0));    // 0\n    System.out.println(fibMod(1));    // 1\n    System.out.println(fibMod(1000));\n  }\n}\n"
+}

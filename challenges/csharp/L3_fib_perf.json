@@ -1,0 +1,8 @@
+﻿{
+  "id": "cs_l3_fib_perf",
+  "title": "Fast Fibonacci modulo",
+  "language": "csharp",
+  "level": 3,
+  "prompt": "Compute fib(n) modulo 1_000_000_007 efficiently for large n (e.g., 100000).",
+  "starterCode": "using System;\n\nclass Program {\n  const long MOD = 1_000_000_007;\n  static long FibMod(int n) {\n    // TODO\n    return 0;\n  }\n\n  static void Main() {\n    Console.WriteLine(FibMod(100000));\n  }\n}\n"
+}

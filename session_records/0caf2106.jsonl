@@ -1,0 +1,14 @@
+{"ts":1766364976681,"sessionId":"0caf2106","type":"challengeLoaded","source":"ai","id":"py-fib-l1-9c2a","language":"python","level":1}
+{"ts":1766364976835,"sessionId":"0caf2106","type":"languageUpdate","lang":"python"}
+{"ts":1766364976838,"sessionId":"0caf2106","type":"outputSnapshot","text":"[CHALLENGE] Fix Fibonacci Base Case · L1 · python\n\nFix the base cases in this recursive Fibonacci. Return F(n) with F(0)=0, F(1)=1 for n>=0.","truncated":false,"reason":"client_outputUpdate"}
+{"ts":1766364992199,"sessionId":"0caf2106","type":"codeSnapshot","reason":"run","code":"def fib(n):\n    # BUG: wrong base case makes F(0) = 1\n    if n == 0 or n == 1:\n        return 1\n    return fib(n - 1) + fib(n - 2)\n\nif __name__ == \"__main__\":\n    print(fib(7))  # expected 13","truncated":false}
+{"ts":1766364992203,"sessionId":"0caf2106","type":"run","language":"python","codeLength":191}
+{"ts":1766364992418,"sessionId":"0caf2106","type":"runResult","output":"21\r\n","truncated":false}
+{"ts":1766364992419,"sessionId":"0caf2106","type":"outputSnapshot","text":"21\r\n","truncated":false,"reason":"run_finish"}
+{"ts":1766365024447,"sessionId":"0caf2106","type":"codeSnapshot","reason":"run","code":"def fib(n):\n    if n < 0:\n        raise ValueError(\"n must be non-negative\")\n    if n == 0:\n        return 0\n    if n == 1:\n        return 1\n    return fib(n - 1) + fib(n - 2)\n\nif __name__ == \"__main__\":\n    print(fib(7))  # 13","truncated":false}
+{"ts":1766365024448,"sessionId":"0caf2106","type":"run","language":"python","codeLength":227}
+{"ts":1766365024673,"sessionId":"0caf2106","type":"runResult","output":"13\r\n","truncated":false}
+{"ts":1766365024674,"sessionId":"0caf2106","type":"outputSnapshot","text":"13\r\n","truncated":false,"reason":"run_finish"}
+{"ts":1766366772527,"sessionId":"0caf2106","type":"sessionEnded","reason":"expired"}
+{"ts":1766376133015,"sessionId":"0caf2106","type":"sessionEnded","reason":"ended_by_host"}
+{"ts":1766376133025,"sessionId":"0caf2106","type":"disconnect","socketId":"BzVrWlzq1mJSItl5AAAF","reason":"transport close"}

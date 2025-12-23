@@ -1,0 +1,9 @@
+﻿{
+  "id": "java_l3_fib_perf",
+  "title": "Fast Fibonacci modulo",
+  "language": "java",
+  "level": 3,
+  "prompt": "Compute fib(n) modulo 1_000_000_007 efficiently for large n (e.g., 100000).",
+  "starterCode": "public class Main {\n  static final long MOD = 1_000_000_007L;\n  static long fibMod(int n) {\n    // TODO\n    return 0;\n  }\n\n  public static void main(String[] args) {\n    System.out.println(fibMod(100000));\n  }\n}\n"
+
+}

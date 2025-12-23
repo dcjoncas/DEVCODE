@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Solve (Host Only)</title>
+  <meta http-equiv="Cache-Control" content="no-store" />
+  <style>
+    body { margin: 16px; font-family: system-ui, -apple-system, Segoe UI, sans-serif; background: #0b0b0b; color: #eaeaea; }
+    .row { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+    .pill { padding: 6px 10px; border: 1px solid #333; border-radius: 999px; font-size: 12px; color: #bbb; }
+    button { padding: 8px 10px; background: #151515; color: #eee; border: 1px solid #333; border-radius: 8px; cursor: pointer; }
+    button:hover { border-color: #555; }
+    pre { background: #101010; border: 1px solid #2a2a2a; border-radius: 10px; padding: 12px; overflow: auto; white-space: pre; }
+    h2 { margin: 14px 0 8px; font-size: 16px; }
+    .muted { color: #9a9a9a; font-size: 12px; }
+    .err { color: #ffb4b4; }
+  </style>
+</head>
+<body>
+  <div class="row">
+    <div class="pill" id="meta">Loading…</div>
+    <button id="retry">Retry</button>
+    <button id="copy">Copy solution</button>
+  </div>
+
+  <div class="muted" style="margin-top:8px">
+    This window is host-only. If you share this URL, it includes your host key.
+  </div>
+
+  <h2>Prompt</h2>
+  <pre id="prompt">(loading)</pre>
+
+  <h2>Solution</h2>
+  <pre id="solution">(loading)</pre>
+
+  <h2>Debug</h2>
+  <pre id="debug">(hidden unless error)</pre>
+
+  <script>
+    const metaEl = document.getElementById("meta");
+    const promptEl = document.getElementById("prompt");
+    const solEl = document.getElementById("solution");
+    const debugEl = document.getElementById("debug");
+    const retryBtn = document.getElementById("retry");
+    const copyBtn = document.getElementById("copy");
+
+    function qs(name) {
+      const u = new URL(window.location.href);
+      return u.searchParams.get(name) || "";
+    }
+
+    const sessionId = window.location.pathname.split("/").filter(Boolean).pop();
+    const k = qs("k");
+
+    async function load() {
+      debugEl.textContent = "(hidden unless error)";
+      debugEl.classList.remove("err");
+      metaEl.textContent = "Loading…";
+      promptEl.textContent = "(loading)";
+      solEl.textContent = "(loading)";
+
+      try {
+        const url = `/api/challenge/solve?sessionId=${encodeURIComponent(sessionId)}&k=${encodeURIComponent(k)}&ts=${Date.now()}`;
+        const resp = await fetch(url, { cache: "no-store" });
+
+        const rawText = await resp.text();
+        let data = null;
+        try {
+          data = JSON.parse(rawText);
+        } catch (e) {
+          throw new Error("Solve API did not return JSON.\n\nRAW:\n" + rawText.slice(0, 4000));
+        }
+
+        if (!resp.ok || data.ok === false || data.error) {
+          throw new Error((data.error ? data.error : "Solve failed") + "\n\n" + (data.detail ? JSON.stringify(data.detail, null, 2) : JSON.stringify(data, null, 2)));
+        }
+
+        const lang = (data.language || "").toUpperCase();
+        metaEl.textContent = `${lang} · L${data.level || ""} · ${data.source || ""}`;
+
+        promptEl.textContent = data.prompt || "(no prompt)";
+        solEl.textContent = (data.solutionCode && String(data.solutionCode).trim()) ? data.solutionCode : "(empty solutionCode returned)";
+
+        // show debug if solution unexpectedly empty
+        if (!data.solutionCode || !String(data.solutionCode).trim()) {
+          debugEl.textContent = "Warning: solutionCode empty.\n\nFull response:\n" + JSON.stringify(data, null, 2);
+          debugEl.classList.add("err");
+        }
+      } catch (e) {
+        metaEl.textContent = "ERROR";
+        promptEl.textContent = "(error)";
+        solEl.textContent = "(error)";
+        debugEl.textContent = String(e?.message || e);
+        debugEl.classList.add("err");
+      }
+    }
+
+    retryBtn.addEventListener("click", load);
+    copyBtn.addEventListener("click", async () => {
+      try {
+        await navigator.clipboard.writeText(solEl.textContent || "");
+        metaEl.textContent = metaEl.textContent + " · copied";
+      } catch {
+        metaEl.textContent = metaEl.textContent + " · copy failed";
+      }
+    });
+
+    load();
+  </script>
+</body>
+</html>

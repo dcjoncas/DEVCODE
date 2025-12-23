@@ -1,0 +1,9 @@
+{
+  "id": "cs-fib-l3-1",
+  "title": "Fast Fibonacci Mod (C#)",
+  "language": "csharp",
+  "level": 3,
+  "prompt": "Return Fib(n) modulo 1_000_000_007 for n up to 1,000,000. Replace recursion with an iterative approach.",
+  "starterCode": "using System;\n\nconst long MOD = 1_000_000_007;\n\nstatic long FibMod(int n)\n{\n    // too slow + BUG: base case wrong\n    if (n <= 1) return 1;\n    return (FibMod(n - 1) + FibMod(n - 2)) % MOD;\n}\n\nConsole.WriteLine(FibMod(0));    // 0\nConsole.WriteLine(FibMod(1));    // 1\nConsole.WriteLine(FibMod(1000)); // should run quickly\n",
+  "solutionCode": "using System;\n\nconst long MOD = 1_000_000_007;\n\nstatic long FibMod(int n)\n{\n    if (n <= 1) return n;\n    long a = 0, b = 1;\n    for (int i = 2; i <= n; i++)\n    {\n        long c = (a + b) % MOD;\n        a = b;\n        b = c;\n    }\n    return b;\n}\n\nConsole.WriteLine(FibMod(0));    // 0\nConsole.WriteLine(FibMod(1));    // 1\nConsole.WriteLine(FibMod(1000));\n"
+}

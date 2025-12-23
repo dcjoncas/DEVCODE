@@ -1,0 +1,9 @@
+{
+  "id": "js-fib-l1-1",
+  "title": "Fix Fibonacci Return Value",
+  "language": "javascript",
+  "level": 1,
+  "prompt": "Fix fib(n) so that fib(0)=0, fib(1)=1. The starter code returns the wrong value for small n.",
+  "starterCode": "function fib(n) {\n  // BUG: base case returns 1 for both 0 and 1\n  if (n <= 1) return 1;\n  return fib(n - 1) + fib(n - 2);\n}\n\nconsole.log(fib(0)); // 0\nconsole.log(fib(1)); // 1\nconsole.log(fib(6)); // 8\n",
+  "solutionCode": "function fib(n) {\n  if (n <= 1) return n;\n  return fib(n - 1) + fib(n - 2);\n}\n\nconsole.log(fib(0)); // 0\nconsole.log(fib(1)); // 1\nconsole.log(fib(6)); // 8\n"
+}

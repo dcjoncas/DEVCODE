@@ -1,0 +1,8 @@
+﻿{
+  "id": "sql_l3_cte_invoice_totals",
+  "title": "CTE + join (invoice totals)",
+  "language": "sql",
+  "level": 3,
+  "prompt": "Return Customer Name and TotalOpenAmount (sum of invoice Amount where Status='Open'), but only for customers with TotalOpenAmount >= 5000. Sort by TotalOpenAmount desc.",
+  "starterCode": "WITH OpenTotals AS (\n  SELECT CustomerId, SUM(Amount) AS TotalOpenAmount\n  FROM Invoices\n  WHERE Status = 'Open'\n  GROUP BY CustomerId\n)\nSELECT c.Name, o.TotalOpenAmount\nFROM OpenTotals o\nJOIN Customers c ON c.Id = o.CustomerId\nWHERE o.TotalOpenAmount >= 5000\nORDER BY o.TotalOpenAmount DESC;"
+}

@@ -1,0 +1,8 @@
+﻿{
+  "id": "cs_l2_fib_memo",
+  "title": "Fibonacci with memoization",
+  "language": "csharp",
+  "level": 2,
+  "prompt": "Implement Fibonacci using memoization (Dictionary) or DP.",
+  "starterCode": "using System;\nusing System.Collections.Generic;\n\nclass Program {\n  static long Fib(int n, Dictionary<int,long> memo) {\n    // TODO\n    return 0;\n  }\n\n  static void Main() {\n    Console.WriteLine(Fib(40, new Dictionary<int,long>()));\n  }\n}\n"
+}

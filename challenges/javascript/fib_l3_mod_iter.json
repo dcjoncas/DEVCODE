@@ -1,0 +1,9 @@
+{
+  "id": "js-fib-l3-1",
+  "title": "Fast Fibonacci Mod",
+  "language": "javascript",
+  "level": 3,
+  "prompt": "Compute fib(n) modulo 1_000_000_007 for n up to 1,000,000. Replace the slow recursion with an iterative approach.",
+  "starterCode": "const MOD = 1000000007;\n\nfunction fibMod(n) {\n  // too slow + BUG: base case wrong\n  if (n <= 1) return 1;\n  return (fibMod(n - 1) + fibMod(n - 2)) % MOD;\n}\n\nconsole.log(fibMod(0));     // 0\nconsole.log(fibMod(1));     // 1\nconsole.log(fibMod(1000));  // should run quickly\n",
+  "solutionCode": "const MOD = 1000000007;\n\nfunction fibMod(n) {\n  if (n <= 1) return n;\n  let a = 0, b = 1;\n  for (let i = 2; i <= n; i++) {\n    const c = (a + b) % MOD;\n    a = b;\n    b = c;\n  }\n  return b;\n}\n\nconsole.log(fibMod(0));     // 0\nconsole.log(fibMod(1));     // 1\nconsole.log(fibMod(1000));\n"
+}

@@ -1,0 +1,8 @@
+﻿{
+  "id": "sql_l2_group_by",
+  "title": "Group and count",
+  "language": "sql",
+  "level": 2,
+  "prompt": "Return one row per State with a count of active customers (IsActive=1). Sort by count desc, then State asc.",
+  "starterCode": "SELECT State, COUNT(*) AS ActiveCount\nFROM Customers\nWHERE IsActive = 1\nGROUP BY State\nORDER BY ActiveCount DESC, State ASC;"
+}

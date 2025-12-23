@@ -1,0 +1,52 @@
+{"ts":1766383509290,"sessionId":"3361b1b8","type":"disconnect","socketId":"-timZtn0PeuRLyWdAAAD","reason":"transport close"}
+{"ts":1766383511424,"sessionId":"3361b1b8","type":"challengeLoaded","source":"library","id":"py_l1_fib_broken","language":"python","level":1}
+{"ts":1766383511599,"sessionId":"3361b1b8","type":"languageUpdate","lang":"python"}
+{"ts":1766383511601,"sessionId":"3361b1b8","type":"outputSnapshot","text":"[CHALLENGE] Fix Fibonacci (broken base cases) · L1 · python\n\nFix the function so fib(0)=0, fib(1)=1 and fib(n) works for n>=0.","truncated":false,"reason":"client_outputUpdate"}
+{"ts":1766383522406,"sessionId":"3361b1b8","type":"challengeLoaded","source":"library","id":"py_l2_fib_memo","language":"python","level":2}
+{"ts":1766383522577,"sessionId":"3361b1b8","type":"languageUpdate","lang":"python"}
+{"ts":1766383522578,"sessionId":"3361b1b8","type":"outputSnapshot","text":"[CHALLENGE] Fibonacci with memoization · L2 · python\n\nImplement fib(n) using memoization to avoid exponential recursion.","truncated":false,"reason":"client_outputUpdate"}
+{"ts":1766383531371,"sessionId":"3361b1b8","type":"languageUpdate","lang":"sql"}
+{"ts":1766383532469,"sessionId":"3361b1b8","type":"challengeLoaded","source":"library","id":"sql_l2_group_by","language":"sql","level":2}
+{"ts":1766383532607,"sessionId":"3361b1b8","type":"languageUpdate","lang":"sql"}
+{"ts":1766383532612,"sessionId":"3361b1b8","type":"outputSnapshot","text":"[CHALLENGE] Group and count · L2 · sql\n\nReturn one row per State with a count of active customers (IsActive=1). Sort by count desc, then State asc.","truncated":false,"reason":"client_outputUpdate"}
+{"ts":1766383543628,"sessionId":"3361b1b8","type":"codeSnapshot","reason":"run","code":"SELECT State, COUNT(*) AS ActiveCount\nFROM Customers\nWHERE IsActive = 1\nGROUP BY State\nORDER BY ActiveCount DESC, State ASC;","truncated":false}
+{"ts":1766383543629,"sessionId":"3361b1b8","type":"run","language":"sql","codeLength":124}
+{"ts":1766383543633,"sessionId":"3361b1b8","type":"runResult","output":"State | ActiveCount\n------+------------\nTX    | 2          \nCA    | 1          \nCO    | 1          \nIL    | 1          \nNY    | 1          \nWA    | 1          ","truncated":false}
+{"ts":1766383543634,"sessionId":"3361b1b8","type":"outputSnapshot","text":"State | ActiveCount\n------+------------\nTX    | 2          \nCA    | 1          \nCO    | 1          \nIL    | 1          \nNY    | 1          \nWA    | 1          ","truncated":false,"reason":"run_finish"}
+{"ts":1766383568616,"sessionId":"3361b1b8","type":"languageUpdate","lang":"javascript"}
+{"ts":1766383570271,"sessionId":"3361b1b8","type":"challengeLoaded","source":"library","id":"js_l2_fib_memo","language":"javascript","level":2}
+{"ts":1766383570417,"sessionId":"3361b1b8","type":"languageUpdate","lang":"javascript"}
+{"ts":1766383570424,"sessionId":"3361b1b8","type":"outputSnapshot","text":"[CHALLENGE] Fibonacci with memoization · L2 · javascript\n\nImplement fib(n) with memoization; avoid recomputation.","truncated":false,"reason":"client_outputUpdate"}
+{"ts":1766383589014,"sessionId":"3361b1b8","type":"codeSnapshot","reason":"run","code":"select * from Cusotmer\n","truncated":false}
+{"ts":1766383589015,"sessionId":"3361b1b8","type":"run","language":"javascript","codeLength":23}
+{"ts":1766383589157,"sessionId":"3361b1b8","type":"runResult","output":"C:\\DEVCODE\\server\\script.js:1\r\nselect * from Cusotmer\r\n              ^^^^^^^^\r\n\r\nSyntaxError: Unexpected identifier\r\n    at internalCompileFunction (node:internal/vm:73:18)\r\n    at wrapSafe (node:internal/modules/cjs/loader:1178:20)\r\n    at Module._compile (node:internal/modules/cjs/loader:1220:27)\r\n    at Module._extensions..js (node:internal/modules/cjs/loader:1310:10)\r\n    at Module.load (node:internal/modules/cjs/loader:1119:32)\r\n    at Module._load (node:internal/modules/cjs/loader:960:12)\r\n    at Function.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:81:12)\r\n    at node:internal/main/run_main_module:23:47\r\n\r\nNode.js v18.17.0\r\n","truncated":false}
+{"ts":1766383589157,"sessionId":"3361b1b8","type":"outputSnapshot","text":"C:\\DEVCODE\\server\\script.js:1\r\nselect * from Cusotmer\r\n              ^^^^^^^^\r\n\r\nSyntaxError: Unexpected identifier\r\n    at internalCompileFunction (node:internal/vm:73:18)\r\n    at wrapSafe (node:internal/modules/cjs/loader:1178:20)\r\n    at Module._compile (node:internal/modules/cjs/loader:1220:27)\r\n    at Module._extensions..js (node:internal/modules/cjs/loader:1310:10)\r\n    at Module.load (node:internal/modules/cjs/loader:1119:32)\r\n    at Module._load (node:internal/modules/cjs/loader:960:12)\r\n    at Function.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:81:12)\r\n    at node:internal/main/run_main_module:23:47\r\n\r\nNode.js v18.17.0\r\n","truncated":false,"reason":"run_finish"}
+{"ts":1766383630266,"sessionId":"3361b1b8","type":"challengeLoaded","source":"ai","id":"js-fib-memo-2-a1","language":"javascript","level":2}
+{"ts":1766383630411,"sessionId":"3361b1b8","type":"languageUpdate","lang":"javascript"}
+{"ts":1766383630415,"sessionId":"3361b1b8","type":"outputSnapshot","text":"[CHALLENGE] Memoized Fibonacci (JS) · L2 · javascript\n\nFix fib(n) to use proper memoization so it runs fast for n up to 5000. Use 0-based indexing: fib(0)=0, fib(1)=1. Keep the function signature fib(n, memo).","truncated":false,"reason":"client_outputUpdate"}
+{"ts":1766383634650,"sessionId":"3361b1b8","type":"codeSnapshot","reason":"run","code":"function fib(n, memo = {}) {\n  if (n <= 1) return n;\n  if (memo[n]) return memo[n];\n  // BUG: memo not passed to recursive calls; cache resets on each branch\n  memo[n] = fib(n - 1) + fib(n - 2);\n  return memo[n];\n}\n","truncated":false}
+{"ts":1766383634651,"sessionId":"3361b1b8","type":"run","language":"javascript","codeLength":215}
+{"ts":1766383634766,"sessionId":"3361b1b8","type":"runResult","output":"(no output)","truncated":false}
+{"ts":1766383634766,"sessionId":"3361b1b8","type":"outputSnapshot","text":"(no output)","truncated":false,"reason":"run_finish"}
+{"ts":1766383652055,"sessionId":"3361b1b8","type":"codeSnapshot","reason":"run","code":"function fib(n, memo = {}) {\n  if (!Number.isInteger(n) || n < 0) throw new Error('n must be a non-negative integer');\n  if (n <= 1) return n;\n  if (memo[n] !== undefined) return memo[n];\n  memo[n] = fib(n - 1, memo) + fib(n - 2, memo);\n  return memo[n];\n}","truncated":false}
+{"ts":1766383652056,"sessionId":"3361b1b8","type":"run","language":"javascript","codeLength":256}
+{"ts":1766383652158,"sessionId":"3361b1b8","type":"runResult","output":"(no output)","truncated":false}
+{"ts":1766383652159,"sessionId":"3361b1b8","type":"outputSnapshot","text":"(no output)","truncated":false,"reason":"run_finish"}
+{"ts":1766384197756,"sessionId":"3361b1b8","type":"languageUpdate","lang":"python"}
+{"ts":1766384200446,"sessionId":"3361b1b8","type":"challengeLoaded","source":"library","id":"py_l2_fib_memo","language":"python","level":2}
+{"ts":1766384200596,"sessionId":"3361b1b8","type":"languageUpdate","lang":"python"}
+{"ts":1766384200601,"sessionId":"3361b1b8","type":"outputSnapshot","text":"[CHALLENGE] Fibonacci with memoization · L2 · python\n\nImplement fib(n) using memoization to avoid exponential recursion.","truncated":false,"reason":"client_outputUpdate"}
+{"ts":1766384213048,"sessionId":"3361b1b8","type":"challengeLoaded","source":"library","id":"py_l1_fib_broken","language":"python","level":1}
+{"ts":1766384213184,"sessionId":"3361b1b8","type":"languageUpdate","lang":"python"}
+{"ts":1766384213193,"sessionId":"3361b1b8","type":"outputSnapshot","text":"[CHALLENGE] Fix Fibonacci (broken base cases) · L1 · python\n\nFix the function so fib(0)=0, fib(1)=1 and fib(n) works for n>=0.","truncated":false,"reason":"client_outputUpdate"}
+{"ts":1766384242896,"sessionId":"3361b1b8","type":"codeSnapshot","reason":"run","code":"def fib(n):\n    if n == 0:\n        return 1\n    if n == 1:\n        return 0\n    return fib(n-1) + fib(n-2)\n\nprint([fib(i) for i in range(10)])\n","truncated":false}
+{"ts":1766384242896,"sessionId":"3361b1b8","type":"run","language":"python","codeLength":143}
+{"ts":1766384243063,"sessionId":"3361b1b8","type":"runResult","output":"[1, 0, 1, 1, 2, 3, 5, 8, 13, 21]\r\n","truncated":false}
+{"ts":1766384243064,"sessionId":"3361b1b8","type":"outputSnapshot","text":"[1, 0, 1, 1, 2, 3, 5, 8, 13, 21]\r\n","truncated":false,"reason":"run_finish"}
+{"ts":1766384263034,"sessionId":"3361b1b8","type":"codeSnapshot","reason":"run","code":"def fib(n):\n    if n == 0:\n        return 1\n    if n == 1:\n        return 0\n    return fib(n-1) + fib(n-)\n\nprint([fib(i) for i in range(10)])\n","truncated":false}
+{"ts":1766384263035,"sessionId":"3361b1b8","type":"run","language":"python","codeLength":142}
+{"ts":1766384263143,"sessionId":"3361b1b8","type":"runResult","output":"  File \"C:\\DEVCODE\\server\\script.py\", line 6\r\n    return fib(n-1) + fib(n-)\r\n                            ^\r\nSyntaxError: invalid syntax\r\n","truncated":false}
+{"ts":1766384263144,"sessionId":"3361b1b8","type":"outputSnapshot","text":"  File \"C:\\DEVCODE\\server\\script.py\", line 6\r\n    return fib(n-1) + fib(n-)\r\n                            ^\r\nSyntaxError: invalid syntax\r\n","truncated":false,"reason":"run_finish"}
+{"ts":1766385317048,"sessionId":"3361b1b8","type":"sessionEnded","reason":"expired"}
+{"ts":1766437385527,"sessionId":"3361b1b8","type":"sessionEnded","reason":"ended_by_host"}
+{"ts":1766437385540,"sessionId":"3361b1b8","type":"disconnect","socketId":"-rtOgLrJ3FZLFbjDAAAF","reason":"transport error"}

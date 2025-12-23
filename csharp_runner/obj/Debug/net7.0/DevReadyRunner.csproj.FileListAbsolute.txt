@@ -1,0 +1,15 @@
+C:\DEVCODE\server\csharp_runner\bin\Debug\net7.0\DevReadyRunner.exe
+C:\DEVCODE\server\csharp_runner\bin\Debug\net7.0\DevReadyRunner.deps.json
+C:\DEVCODE\server\csharp_runner\bin\Debug\net7.0\DevReadyRunner.runtimeconfig.json
+C:\DEVCODE\server\csharp_runner\bin\Debug\net7.0\DevReadyRunner.dll
+C:\DEVCODE\server\csharp_runner\bin\Debug\net7.0\DevReadyRunner.pdb
+C:\DEVCODE\server\csharp_runner\obj\Debug\net7.0\DevReadyRunner.csproj.AssemblyReference.cache
+C:\DEVCODE\server\csharp_runner\obj\Debug\net7.0\DevReadyRunner.GeneratedMSBuildEditorConfig.editorconfig
+C:\DEVCODE\server\csharp_runner\obj\Debug\net7.0\DevReadyRunner.AssemblyInfoInputs.cache
+C:\DEVCODE\server\csharp_runner\obj\Debug\net7.0\DevReadyRunner.AssemblyInfo.cs
+C:\DEVCODE\server\csharp_runner\obj\Debug\net7.0\DevReadyRunner.csproj.CoreCompileInputs.cache
+C:\DEVCODE\server\csharp_runner\obj\Debug\net7.0\DevReadyRunner.dll
+C:\DEVCODE\server\csharp_runner\obj\Debug\net7.0\refint\DevReadyRunner.dll
+C:\DEVCODE\server\csharp_runner\obj\Debug\net7.0\DevReadyRunner.pdb
+C:\DEVCODE\server\csharp_runner\obj\Debug\net7.0\DevReadyRunner.genruntimeconfig.cache
+C:\DEVCODE\server\csharp_runner\obj\Debug\net7.0\ref\DevReadyRunner.dll

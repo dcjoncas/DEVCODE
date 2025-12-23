@@ -1,0 +1,8 @@
+﻿{
+  "id": "py_l3_fib_perf",
+  "title": "Refactor Fibonacci for performance",
+  "language": "python",
+  "level": 3,
+  "prompt": "Refactor fib(n) to be fast and safe for large n (e.g., n=100000). Return fib(n) modulo 1_000_000_007.",
+  "starterCode": "MOD = 1_000_000_007\n\ndef fib_mod(n):\n    # TODO: fast implementation\n    pass\n\nprint(fib_mod(100000))\n"
+}

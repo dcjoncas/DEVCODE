@@ -1,0 +1,8 @@
+﻿{
+  "id": "py_l1_fib_broken",
+  "title": "Fix Fibonacci (broken base cases)",
+  "language": "python",
+  "level": 1,
+  "prompt": "Fix the function so fib(0)=0, fib(1)=1 and fib(n) works for n>=0.",
+  "starterCode": "def fib(n):\n    if n == 0:\n        return 1\n    if n == 1:\n        return 0\n    return fib(n-1) + fib(n-2)\n\nprint([fib(i) for i in range(10)])\n"
+}

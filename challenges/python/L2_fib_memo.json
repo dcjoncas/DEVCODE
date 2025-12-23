@@ -1,0 +1,8 @@
+﻿{
+  "id": "py_l2_fib_memo",
+  "title": "Fibonacci with memoization",
+  "language": "python",
+  "level": 2,
+  "prompt": "Implement fib(n) using memoization to avoid exponential recursion.",
+  "starterCode": "def fib(n, memo=None):\n    # TODO: implement memoization\n    pass\n\nprint(fib(35))\n"
+}

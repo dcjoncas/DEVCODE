@@ -1,0 +1,8 @@
+﻿{
+  "id": "java_l2_fib_memo",
+  "title": "Fibonacci with memoization",
+  "language": "java",
+  "level": 2,
+  "prompt": "Implement Fibonacci using memoization (Map) or DP.",
+  "starterCode": "import java.util.*;\n\npublic class Main {\n  static long fib(int n, Map<Integer,Long> memo) {\n    // TODO\n    return 0;\n  }\n\n  public static void main(String[] args) {\n    System.out.println(fib(40, new HashMap<>()));\n  }\n}\n"
+}

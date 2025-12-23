@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Recordings</title>
+    <link rel="stylesheet" href="/style.css" />
+    <style>
+        .wrap {
+            padding: 18px;
+        }
+
+        .card {
+            background: #fff;
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.06);
+            padding: 14px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            padding: 10px 10px;
+            border-bottom: 1px solid #eef2f7;
+            text-align: left;
+            font-size: 0.92rem;
+        }
+
+        th {
+            color: #6b7280;
+            font-weight: 800;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+        }
+
+        .muted {
+            color: #6b7280;
+        }
+
+        .links a,
+        .links button {
+            margin-right: 10px;
+        }
+
+        .title {
+            font-weight: 900;
+            font-size: 1.05rem;
+            margin-bottom: 10px;
+        }
+
+        .danger {
+            border: 1px solid #fecaca;
+            background: #fff1f2;
+            color: #b91c1c;
+            padding: 6px 10px;
+            border-radius: 10px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .danger:hover {
+            border-color: #fca5a5;
+        }
+
+        .danger:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrap">
+        <div class="card">
+            <div class="title">Recordings</div>
+            <div class="muted" style="margin-bottom:10px;">Newest first. Candidate name comes from the candidate entry
+                modal.</div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Session</th>
+                        <th>Candidate</th>
+                        <th>Modified</th>
+                        <th>Size</th>
+                        <th>Links</th>
+                    </tr>
+                </thead>
+                <tbody id="rows"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        function fmtTime(ms) {
+            const d = new Date(ms);
+            return d.toLocaleString();
+        }
+        function fmtBytes(n) {
+            if (!n && n !== 0) return "";
+            const units = ["B", "KB", "MB", "GB"];
+            let i = 0; let x = n;
+            while (x >= 1024 && i < units.length - 1) { x /= 1024; i++; }
+            return `${x.toFixed(i === 0 ? 0 : 1)} ${units[i]}`;
+        }
+
+        async function deleteRecording(sessionId, btn) {
+            const ok = confirm(`Delete recording for session "${sessionId}"?\n\nThis permanently deletes the .jsonl record (and meta file).`);
+            if (!ok) return;
+
+            try {
+                btn.disabled = true;
+                btn.textContent = "Deleting…";
+
+                const r = await fetch(`/api/record/${encodeURIComponent(sessionId)}`, { method: "DELETE" });
+                const j = await r.json().catch(() => ({}));
+
+                if (!r.ok || !j.ok) {
+                    const msg = (j && (j.error || j.details)) ? `${j.error || ""} ${j.details || ""}`.trim() : `HTTP ${r.status}`;
+                    alert("Delete failed: " + msg);
+                    btn.disabled = false;
+                    btn.textContent = "Delete";
+                    return;
+                }
+
+                // Refresh list
+                load();
+            } catch (e) {
+                alert("Delete failed: " + e.message);
+                btn.disabled = false;
+                btn.textContent = "Delete";
+            }
+        }
+
+        async function load() {
+            const r = await fetch("/api/records");
+            const j = await r.json();
+            const list = j.records || [];
+            const tbody = document.getElementById("rows");
+
+            tbody.innerHTML = "";
+            for (const rec of list) {
+                const tr = document.createElement("tr");
+                const cand = (rec.candidateName || "").trim();
+
+                const safeSession = String(rec.sessionId || "");
+                const safeCand = cand ? cand : "";
+
+                tr.innerHTML = `
+          <td><strong>${safeSession}</strong></td>
+          <td>${safeCand ? safeCand : "<span class='muted'>(unknown)</span>"}</td>
+          <td class="muted">${fmtTime(rec.modifiedAt)}</td>
+          <td class="muted">${fmtBytes(rec.size)}</td>
+          <td class="links">
+            <a class="dr-link" href="/replay/${safeSession}" target="_blank" rel="noopener">Replay</a>
+            <a class="dr-link" href="/session/${safeSession}/record" target="_blank" rel="noopener">Download</a>
+            <button class="danger" data-del="${safeSession}">Delete</button>
+          </td>
+        `;
+                tbody.appendChild(tr);
+            }
+
+            if (!list.length) {
+                tbody.innerHTML = `<tr><td colspan="5" class="muted">No recordings yet.</td></tr>`;
+            }
+
+            // wire delete buttons
+            tbody.querySelectorAll("button[data-del]").forEach(btn => {
+                btn.addEventListener("click", () => deleteRecording(btn.getAttribute("data-del"), btn));
+            });
+        }
+
+        load().catch(e => {
+            document.getElementById("rows").innerHTML = `<tr><td colspan="5" class="muted">Error: ${e.message}</td></tr>`;
+        });
+    </script>
+</body>
+
+</html>

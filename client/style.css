@@ -1,0 +1,476 @@
+:root {
+    --bg: #f8fafc;
+    --panel: #ffffff;
+    --text: #111827;
+    --muted: #6b7280;
+    --border: #e5e7eb;
+    --blue: #1d4ed8;
+    --green: #16a34a;
+    --red: #dc2626;
+    --shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+    --mono: Consolas, "Fira Code", ui-monospace, SFMono-Regular, Menlo, Monaco, monospace;
+    --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+/* ✅ Make the overall page a fixed-height column
+   Header + session bar take natural height
+   Main consumes the rest (no calc guessing) */
+html, body {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    font-family: var(--sans);
+    background: var(--bg);
+    color: var(--text);
+
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.dr-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 22px;
+    background: var(--panel);
+    border-bottom: 1px solid var(--border);
+    flex: 0 0 auto;
+}
+
+.dr-header-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.dr-logo {
+    height: 30px;
+}
+
+.dr-title {
+    font-size: 1.05rem;
+    font-weight: 700;
+}
+
+.dr-header-right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 6px;
+}
+
+.dr-badge {
+    padding: 5px 10px;
+    border-radius: 999px;
+    border: 1px solid #bbf7d0;
+    background: #f0fdf4;
+    color: #166534;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+}
+
+.dr-candidate-display {
+    font-size: 0.9rem;
+    color: var(--muted);
+}
+
+.dr-session-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 10px 22px;
+    background: var(--panel);
+    border-bottom: 1px solid var(--border);
+    flex: 0 0 auto;
+}
+
+.dr-session-status {
+    color: var(--muted);
+    font-size: 0.9rem;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.dr-recording-status {
+    font-size: 0.85rem;
+    color: var(--muted);
+}
+
+.dr-recording-status.on {
+    color: var(--red);
+    font-weight: 700;
+}
+
+.dr-session-link-block {
+    flex: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.dr-session-label {
+    font-size: 0.85rem;
+    color: var(--muted);
+}
+
+#session-link {
+    width: 100%;
+    max-width: 520px;
+    padding: 7px 10px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: #f9fafb;
+    color: #374151;
+    font-size: 0.85rem;
+}
+
+.dr-session-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex: 1;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+}
+
+.dr-link {
+    font-size: 0.85rem;
+    color: var(--blue);
+    text-decoration: none;
+}
+
+.dr-link:hover {
+    text-decoration: underline;
+}
+
+/* ✅ Main now fills remaining viewport height reliably */
+.dr-main {
+    display: flex;
+    flex: 1 1 auto;
+    min-height: 0; /* critical for nested flex scrolling behavior */
+}
+
+.dr-left {
+    flex: 3;
+    padding: 14px 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    min-height: 0;
+}
+
+.dr-right {
+    flex: 2;
+    padding: 14px 18px;
+    border-left: 1px solid var(--border);
+    background: #fbfdff;
+
+    /* ✅ Right side is a fixed-height column; children manage overflow */
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    min-height: 0;
+    overflow: hidden;
+}
+
+.dr-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.dr-toolbar-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--muted);
+    font-size: 0.9rem;
+}
+
+#language {
+    padding: 7px 10px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: var(--panel);
+    color: var(--text);
+}
+
+.dr-buttons {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+button {
+    border: 1px solid var(--border);
+    background: var(--panel);
+    color: var(--text);
+    padding: 7px 12px;
+    border-radius: 10px;
+    font-weight: 650;
+    cursor: pointer;
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.03);
+}
+
+button:hover {
+    border-color: #cbd5e1;
+}
+
+button:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+}
+
+button#run {
+    background: var(--green);
+    border-color: #16a34a;
+    color: #ffffff;
+}
+
+button#hint {
+    background: #eff6ff;
+    border-color: #bfdbfe;
+    color: #1d4ed8;
+}
+
+.dr-inline-label {
+    color: var(--muted);
+    font-size: 0.85rem;
+    font-weight: 650;
+}
+
+.dr-small-select {
+    padding: 7px 10px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    background: var(--panel);
+    color: var(--text);
+    font-size: 0.85rem;
+}
+
+.dr-editor-wrap {
+    flex: 1;
+    display: flex;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    background: #ffffff;
+    box-shadow: var(--shadow);
+    min-height: 0;
+}
+
+.dr-lines {
+    margin: 0;
+    padding: 12px 10px;
+    width: 46px;
+    background: #f9fafb;
+    border-right: 1px solid var(--border);
+    color: #9ca3af;
+    font-family: var(--mono);
+    font-size: 0.9rem;
+    line-height: 1.35rem;
+    text-align: right;
+    user-select: none;
+    overflow: hidden;
+}
+
+#editor {
+    flex: 1;
+    border: none;
+    padding: 12px 12px;
+    font-family: var(--mono);
+    font-size: 0.95rem;
+    line-height: 1.35rem;
+    outline: none;
+    resize: none;
+    background: #ffffff;
+    color: #111827;
+
+    height: 100%;
+    min-height: 0;
+}
+
+.dr-right h3 {
+    margin: 0;
+    font-size: 0.95rem;
+    color: #111827;
+    flex: 0 0 auto;
+}
+
+/* ✅ Challenge/description box:
+   - WRAPS (carriage return behavior)
+   - DOES NOT SCROLL
+   - DOES NOT GROW PANEL
+   - CLIPS after N lines */
+#challenge,
+#challenge-box,
+#challenge-panel,
+.dr-challenge,
+.dr-challenge-box,
+.dr-challenge-panel,
+.dr-challenge-card {
+    flex: 0 0 auto;
+    min-height: 0;
+
+    /* wrap like you want */
+    white-space: pre-wrap;
+    word-break: break-word;
+
+    /* show up to ~8 lines then clip (no scroll) */
+    line-height: 1.35rem;
+    max-height: calc(1.35rem * 8);
+
+    overflow: hidden;
+
+    /* multiline clamp (works in Chromium/Edge/Safari) */
+    display: -webkit-box;
+    -webkit-line-clamp: 8;
+    -webkit-box-orient: vertical;
+}
+
+/* ✅ Output takes remaining space and is the only scrollable area */
+#output {
+    flex: 1 1 auto;
+    min-height: 0;
+    margin: 0;
+    padding: 12px;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    background: #ffffff;
+    box-shadow: var(--shadow);
+    font-family: var(--mono);
+    font-size: 0.92rem;
+    line-height: 1.35rem;
+
+    overflow: auto;
+    white-space: pre-wrap;
+    word-break: break-word;
+}
+
+/* ===== Processing pill ===== */
+.dr-processing {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 10px;
+    border-radius: 999px;
+    border: 1px solid #c7d2fe;
+    background: #eef2ff;
+    color: #1d4ed8;
+    font-size: 0.85rem;
+    font-weight: 700;
+}
+
+.dr-spinner {
+    width: 12px;
+    height: 12px;
+    border-radius: 999px;
+    border: 2px solid #cbd5e1;
+    border-top-color: #1d4ed8;
+    animation: drspin 0.9s linear infinite;
+}
+
+@keyframes drspin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* ===== Candidate name modal ===== */
+.dr-modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.55);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    z-index: 9999;
+}
+
+.dr-modal.show {
+    display: flex;
+}
+
+.dr-modal-card {
+    width: 100%;
+    max-width: 520px;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 18px;
+    box-shadow: var(--shadow);
+}
+
+.dr-modal-title {
+    font-size: 1.05rem;
+    font-weight: 800;
+    margin-bottom: 6px;
+}
+
+.dr-modal-sub {
+    font-size: 0.9rem;
+    color: var(--muted);
+    margin-bottom: 14px;
+}
+
+.dr-modal-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+.dr-field-label {
+    display: block;
+    font-size: 0.85rem;
+    color: var(--muted);
+    margin-bottom: 6px;
+}
+
+#cand-first,
+#cand-last {
+    width: 100%;
+    padding: 9px 10px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    background: #ffffff;
+    color: var(--text);
+    font-size: 0.95rem;
+}
+
+.dr-modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 14px;
+}
+
+.dr-primary {
+    background: var(--blue);
+    border-color: var(--blue);
+    color: #ffffff;
+}
+
+.dr-modal-hint {
+    margin-top: 10px;
+    font-size: 0.85rem;
+    color: #b91c1c;
+}

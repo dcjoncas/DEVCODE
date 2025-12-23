@@ -1,0 +1,9 @@
+{
+  "id": "cs-fib-l1-1",
+  "title": "Fix Fibonacci Base Case (C#)",
+  "language": "csharp",
+  "level": 1,
+  "prompt": "Fix Fib(n) so that Fib(0)=0 and Fib(1)=1. The starter code returns the wrong value for n=0.",
+  "starterCode": "using System;\n\nstatic int Fib(int n)\n{\n    // BUG: returns 1 for n=0\n    if (n <= 1) return 1;\n    return Fib(n - 1) + Fib(n - 2);\n}\n\nConsole.WriteLine(Fib(0)); // 0\nConsole.WriteLine(Fib(1)); // 1\nConsole.WriteLine(Fib(6)); // 8\n",
+  "solutionCode": "using System;\n\nstatic int Fib(int n)\n{\n    if (n <= 1) return n;\n    return Fib(n - 1) + Fib(n - 2);\n}\n\nConsole.WriteLine(Fib(0)); // 0\nConsole.WriteLine(Fib(1)); // 1\nConsole.WriteLine(Fib(6)); // 8\n"
+}

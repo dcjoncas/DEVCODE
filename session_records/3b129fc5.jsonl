@@ -1,0 +1,4 @@
+{"ts":1766288771255,"sessionId":"3b129fc5","type":"sessionEnded","reason":"expired"}
+{"ts":1766342448180,"sessionId":"3b129fc5","type":"disconnect","socketId":"LdasbWn-aTNwjc_0AAAR","reason":"transport close"}
+{"ts":1766342461019,"sessionId":"3b129fc5","type":"sessionEnded","reason":"ended_by_host"}
+{"ts":1766342461022,"sessionId":"3b129fc5","type":"disconnect","socketId":"7lzPSd8x_uoqp1l8AAAT","reason":"transport error"}

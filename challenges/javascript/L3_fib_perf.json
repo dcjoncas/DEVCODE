@@ -1,0 +1,8 @@
+﻿{
+  "id": "js_l3_fib_perf",
+  "title": "Fast Fibonacci modulo",
+  "language": "javascript",
+  "level": 3,
+  "prompt": "Compute fib(n) modulo 1_000_000_007 for very large n (e.g., 100000).",
+  "starterCode": "const MOD = 1_000_000_007;\nfunction fibMod(n) {\n  // TODO\n}\n\nconsole.log(fibMod(100000));\n"
+}

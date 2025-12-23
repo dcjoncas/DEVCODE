@@ -1,0 +1,8 @@
+﻿{
+  "id": "java_l1_fib_broken",
+  "title": "Fix Fibonacci (wrong return)",
+  "language": "java",
+  "level": 1,
+  "prompt": "Fix Fibonacci so fib(0)=0 and fib(1)=1.",
+  "starterCode": "public class Main {\n  static int fib(int n) {\n    if (n <= 1) return 1; // wrong\n    return fib(n-1) + fib(n-2);\n  }\n\n  public static void main(String[] args) {\n    for (int i=0; i<10; i++) {\n      System.out.print(fib(i));\n      if (i<9) System.out.print(\",\");\n    }\n  }\n}\n"
+}

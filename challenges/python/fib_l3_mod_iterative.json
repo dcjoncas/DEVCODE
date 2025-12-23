@@ -1,0 +1,9 @@
+{
+  "id": "py-fib-l3-1",
+  "title": "Fast Fibonacci Mod 1_000_000_007",
+  "language": "python",
+  "level": 3,
+  "prompt": "Return fib(n) modulo 1_000_000_007 for n up to 1,000,000. The starter code is too slow and has a minor logic bug. Replace with an O(n) iterative solution (or faster).",
+  "starterCode": "MOD = 1_000_000_007\n\ndef fib_mod(n: int) -> int:\n    # BUG + too slow for big n (recursive)\n    if n <= 1:\n        return 1\n    return (fib_mod(n - 1) + fib_mod(n - 2)) % MOD\n\nif __name__ == \"__main__\":\n    print(fib_mod(0))     # 0\n    print(fib_mod(1))     # 1\n    print(fib_mod(1000))  # should run quickly\n",
+  "solutionCode": "MOD = 1_000_000_007\n\ndef fib_mod(n: int) -> int:\n    if n <= 1:\n        return n\n    a, b = 0, 1\n    for _ in range(2, n + 1):\n        a, b = b, (a + b) % MOD\n    return b\n\nif __name__ == \"__main__\":\n    print(fib_mod(0))     # 0\n    print(fib_mod(1))     # 1\n    print(fib_mod(1000))\n"
+}

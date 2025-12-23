@@ -1,0 +1,41 @@
+{"ts":1766175202665,"sessionId":"2c5581fe","type":"candidateMetaUpdate","first":"Billy","last":"Bob","source":"candidate_join"}
+{"ts":1766175212879,"sessionId":"2c5581fe","type":"recordingStarted","startedAt":1766175212879}
+{"ts":1766175215857,"sessionId":"2c5581fe","type":"codeUpdate","length":16}
+{"ts":1766175215941,"sessionId":"2c5581fe","type":"codeUpdate","length":17}
+{"ts":1766175216122,"sessionId":"2c5581fe","type":"codeUpdate","length":18}
+{"ts":1766175216202,"sessionId":"2c5581fe","type":"codeUpdate","length":19}
+{"ts":1766175216348,"sessionId":"2c5581fe","type":"codeUpdate","length":20}
+{"ts":1766175216367,"sessionId":"2c5581fe","type":"codeUpdate","length":21}
+{"ts":1766175216449,"sessionId":"2c5581fe","type":"codeUpdate","length":22}
+{"ts":1766175216643,"sessionId":"2c5581fe","type":"codeUpdate","length":23}
+{"ts":1766175216780,"sessionId":"2c5581fe","type":"codeUpdate","length":24}
+{"ts":1766175218476,"sessionId":"2c5581fe","type":"run","language":"sql","codeLength":24}
+{"ts":1766175218481,"sessionId":"2c5581fe","type":"runResult","outputLength":1259}
+{"ts":1766175221472,"sessionId":"2c5581fe","type":"recordingStopped","stoppedAt":1766175221472}
+{"ts":1766175321121,"sessionId":"2c5581fe","type":"recordingStarted","startedAt":1766175321121}
+{"ts":1766175321123,"sessionId":"2c5581fe","type":"codeSnapshot","reason":"recording_start","code":"","truncated":false}
+{"ts":1766175321123,"sessionId":"2c5581fe","type":"languageUpdate","lang":"python"}
+{"ts":1766175321124,"sessionId":"2c5581fe","type":"outputSnapshot","text":"","truncated":false,"reason":"recording_start"}
+{"ts":1766175324694,"sessionId":"2c5581fe","type":"languageUpdate","lang":"sql"}
+{"ts":1766175325943,"sessionId":"2c5581fe","type":"codeSnapshot","reason":"typing","code":"s","truncated":false}
+{"ts":1766175326692,"sessionId":"2c5581fe","type":"codeSnapshot","reason":"typing","code":"select","truncated":false}
+{"ts":1766175327588,"sessionId":"2c5581fe","type":"codeSnapshot","reason":"typing","code":"select *","truncated":false}
+{"ts":1766175328769,"sessionId":"2c5581fe","type":"codeSnapshot","reason":"typing","code":"select * from ","truncated":false}
+{"ts":1766175329421,"sessionId":"2c5581fe","type":"codeSnapshot","reason":"typing","code":"select * from Cuso","truncated":false}
+{"ts":1766175331262,"sessionId":"2c5581fe","type":"codeSnapshot","reason":"run","code":"select * from Cusotmer","truncated":false}
+{"ts":1766175331262,"sessionId":"2c5581fe","type":"run","language":"sql","codeLength":22}
+{"ts":1766175331266,"sessionId":"2c5581fe","type":"runResult","output":"SQL error: SQLITE_ERROR: no such table: Cusotmer","truncated":false}
+{"ts":1766175331267,"sessionId":"2c5581fe","type":"outputSnapshot","text":"SQL error: SQLITE_ERROR: no such table: Cusotmer","truncated":false,"reason":"run_finish"}
+{"ts":1766175347908,"sessionId":"2c5581fe","type":"candidateMetaUpdate","first":"sam","last":"smith","source":"candidate_join"}
+{"ts":1766175352362,"sessionId":"2c5581fe","type":"codeSnapshot","reason":"typing","code":"select * from C","truncated":false}
+{"ts":1766175353140,"sessionId":"2c5581fe","type":"codeSnapshot","reason":"typing","code":"select * from Cus","truncated":false}
+{"ts":1766175353826,"sessionId":"2c5581fe","type":"codeSnapshot","reason":"typing","code":"select * from Customer","truncated":false}
+{"ts":1766175354950,"sessionId":"2c5581fe","type":"codeSnapshot","reason":"typing","code":"select * from Customer \n","truncated":false}
+{"ts":1766175357875,"sessionId":"2c5581fe","type":"codeSnapshot","reason":"typing","code":"select * from Customer\n","truncated":false}
+{"ts":1766175359382,"sessionId":"2c5581fe","type":"codeSnapshot","reason":"run","code":"select * from Customers\n","truncated":false}
+{"ts":1766175359383,"sessionId":"2c5581fe","type":"run","language":"sql","codeLength":24}
+{"ts":1766175359386,"sessionId":"2c5581fe","type":"runResult","output":"Id | Name                      | Email                  | City      | State | Country | Industry      | IsActive | CreatedAt \n---+---------------------------+------------------------+-----------+-------+---------+---------------+----------+-----------\n1  | Acme Manufacturing        | ops@acme-mfg.com       | Denver    | CO    | USA     | Manufacturing | 1        | 2023-01-15\n2  | Northwind Logistics       | it@northwind-log.com   | Seattle   | WA    | USA     | Logistics     | 1        | 2023-03-02\n3  | Global Retail Group       | tech@gr-retail.com     | Chicago   | IL    | USA     | Retail        | 1        | 2022-11-20\n4  | Pioneer Energy Services   | info@pioneer-energy.io | Houston   | TX    | USA     | Energy        | 1        | 2022-09-05\n5  | Summit Financial Partners | admin@summit-fin.com   | New York  | NY    | USA     | Financial     | 1        | 2023-05-10\n6  | BlueSky Health Systems    | it@bluesky-health.com  | San Diego | CA    | USA     | Healthcare    | 1        | 2023-02-28\n7  | Vertex Construction Group | pm@vertex-build.com    | Phoenix   | AZ    | USA     | Construction  | 0        | 2021-07-14\n8  | Aurora Tech Solutions     | dev@aurora-tech.io     | Austin    | TX    | USA     | Technology    | 1        | 2023-08-01","truncated":false}
+{"ts":1766175359387,"sessionId":"2c5581fe","type":"outputSnapshot","text":"Id | Name                      | Email                  | City      | State | Country | Industry      | IsActive | CreatedAt \n---+---------------------------+------------------------+-----------+-------+---------+---------------+----------+-----------\n1  | Acme Manufacturing        | ops@acme-mfg.com       | Denver    | CO    | USA     | Manufacturing | 1        | 2023-01-15\n2  | Northwind Logistics       | it@northwind-log.com   | Seattle   | WA    | USA     | Logistics     | 1        | 2023-03-02\n3  | Global Retail Group       | tech@gr-retail.com     | Chicago   | IL    | USA     | Retail        | 1        | 2022-11-20\n4  | Pioneer Energy Services   | info@pioneer-energy.io | Houston   | TX    | USA     | Energy        | 1        | 2022-09-05\n5  | Summit Financial Partners | admin@summit-fin.com   | New York  | NY    | USA     | Financial     | 1        | 2023-05-10\n6  | BlueSky Health Systems    | it@bluesky-health.com  | San Diego | CA    | USA     | Healthcare    | 1        | 2023-02-28\n7  | Vertex Construction Group | pm@vertex-build.com    | Phoenix   | AZ    | USA     | Construction  | 0        | 2021-07-14\n8  | Aurora Tech Solutions     | dev@aurora-tech.io     | Austin    | TX    | USA     | Technology    | 1        | 2023-08-01","truncated":false,"reason":"run_finish"}
+{"ts":1766175369933,"sessionId":"2c5581fe","type":"codeSnapshot","reason":"recording_stop","code":"select * from Customers\n","truncated":false}
+{"ts":1766175369934,"sessionId":"2c5581fe","type":"outputSnapshot","text":"Id | Name                      | Email                  | City      | State | Country | Industry      | IsActive | CreatedAt \n---+---------------------------+------------------------+-----------+-------+---------+---------------+----------+-----------\n1  | Acme Manufacturing        | ops@acme-mfg.com       | Denver    | CO    | USA     | Manufacturing | 1        | 2023-01-15\n2  | Northwind Logistics       | it@northwind-log.com   | Seattle   | WA    | USA     | Logistics     | 1        | 2023-03-02\n3  | Global Retail Group       | tech@gr-retail.com     | Chicago   | IL    | USA     | Retail        | 1        | 2022-11-20\n4  | Pioneer Energy Services   | info@pioneer-energy.io | Houston   | TX    | USA     | Energy        | 1        | 2022-09-05\n5  | Summit Financial Partners | admin@summit-fin.com   | New York  | NY    | USA     | Financial     | 1        | 2023-05-10\n6  | BlueSky Health Systems    | it@bluesky-health.com  | San Diego | CA    | USA     | Healthcare    | 1        | 2023-02-28\n7  | Vertex Construction Group | pm@vertex-build.com    | Phoenix   | AZ    | USA     | Construction  | 0        | 2021-07-14\n8  | Aurora Tech Solutions     | dev@aurora-tech.io     | Austin    | TX    | USA     | Technology    | 1        | 2023-08-01","truncated":false,"reason":"recording_stop"}
+{"ts":1766175369934,"sessionId":"2c5581fe","type":"recordingStopped","stoppedAt":1766175369934}

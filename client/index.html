@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>DevReady Collab MVP</title>
+  <link rel="stylesheet" href="/style.css" />
+</head>
+
+<body>
+  <header class="dr-header">
+    <div class="dr-header-left">
+      <img class="dr-logo" src="/dev-ready-logo.svg" alt="DevReady" onerror="this.style.display='none'">
+      <div class="dr-title">Pair Coding Session</div>
+    </div>
+
+    <div class="dr-header-right">
+      <span class="dr-badge" id="role-badge">Role</span>
+      <div id="candidate-display" class="dr-candidate-display"></div>
+    </div>
+  </header>
+
+  <div class="dr-session-bar">
+    <div class="dr-session-status">
+      <div id="session-status">Session…</div>
+      <div id="recording-status" class="dr-recording-status">Recording: OFF</div>
+    </div>
+
+    <div class="dr-session-link-block">
+      <span class="dr-session-label">Share link:</span>
+      <input id="session-link" readonly />
+    </div>
+
+    <div class="dr-session-actions">
+      <div class="dr-session-actions-left">
+        <button id="new-session">New Session</button>
+        <button id="end-session">End Session</button>
+      </div>
+
+      <div class="dr-session-actions-right">
+        <button id="start-recording">Start Recording</button>
+        <button id="stop-recording" disabled>Stop Recording</button>
+
+        <a id="download-record" class="dr-link" href="#" target="_blank" rel="noopener" style="display:none;">Download</a>
+        <a id="replay-this" class="dr-link" href="#" target="_blank" rel="noopener" style="display:none;">Replay</a>
+        <a id="open-recordings" class="dr-link" href="/records" target="_blank" rel="noopener">Recordings</a>
+      </div>
+    </div>
+  </div>
+
+  <main class="dr-main">
+    <section class="dr-left">
+      <div class="dr-toolbar">
+        <div class="dr-toolbar-left">
+          <label for="language">Language:</label>
+          <select id="language">
+            <option value="python">Python</option>
+            <option value="javascript">JavaScript</option>
+            <option value="sql">SQL (SQLite)</option>
+            <option value="csharp">C#</option>
+            <option value="java">Java</option>
+          </select>
+        </div>
+
+        <div class="dr-buttons">
+          <button id="run">Run</button>
+          <button id="clear">Clear</button>
+          <button id="hint" style="display:none;">Hint (3)</button>
+
+          <span id="processing" class="dr-processing" style="display:none;">
+            <span class="dr-spinner" aria-hidden="true"></span>
+            <span id="processing-text">Processing…</span>
+          </span>
+
+          <!-- Host-only challenge controls (candidate hides via JS) -->
+          <select id="challenge-source" title="Challenge source">
+            <option value="library">Library</option>
+            <option value="ai">AI</option>
+          </select>
+          <select id="challenge-level" title="Challenge level">
+            <option value="1">L1</option>
+            <option value="2">L2</option>
+            <option value="3">L3</option>
+          </select>
+          <button id="load-challenge">Load Challenge</button>
+          <button id="solve-challenge">Solve</button>
+
+          <button id="load-script">Load Script</button>
+          <input id="file-input" type="file" style="display:none;" />
+        </div>
+      </div>
+
+      <div class="dr-editor-wrap">
+        <pre id="line-numbers" class="dr-lines">1</pre>
+        <textarea id="editor" spellcheck="false"></textarea>
+      </div>
+    </section>
+
+    <section class="dr-right">
+      <h3>Challenge</h3>
+      <pre id="challenge-box">(no challenge loaded)</pre>
+
+      <h3>Output</h3>
+      <pre id="output"></pre>
+    </section>
+  </main>
+
+  <div id="name-modal" class="dr-modal" aria-hidden="true">
+    <div class="dr-modal-card">
+      <div class="dr-modal-title">Enter your name</div>
+      <div class="dr-modal-sub">This helps personalize the interview record.</div>
+
+      <div class="dr-modal-grid">
+        <div>
+          <label class="dr-field-label" for="cand-first">First name</label>
+          <input id="cand-first" placeholder="First" />
+        </div>
+        <div>
+          <label class="dr-field-label" for="cand-last">Last name</label>
+          <input id="cand-last" placeholder="Last" />
+        </div>
+      </div>
+
+      <div class="dr-modal-actions">
+        <button id="cand-join" class="dr-primary">Join Session</button>
+      </div>
+
+      <div id="cand-name-hint" class="dr-modal-hint"></div>
+    </div>
+  </div>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/editor.js"></script>
+</body>
+
+</html>

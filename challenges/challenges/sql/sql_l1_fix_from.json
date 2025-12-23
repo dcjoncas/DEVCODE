@@ -1,0 +1,9 @@
+{
+  "id": "sql-l1-1",
+  "title": "Fix the SELECT",
+  "language": "sql",
+  "level": 1,
+  "prompt": "Tables (SQLite):\n- Customers(id, name)\n- Projects(id, name, customer_id)\n- Invoices(id, project_id, amount, status, issued_date)\n\nReturn 10 customers ordered by name. The query has a small syntax bug; fix it.",
+  "starterCode": "SELECT id, name\nFORM Customers\nORDER BY name\nLIMIT 10;\n",
+  "solutionCode": "SELECT id, name\nFROM Customers\nORDER BY name\nLIMIT 10;\n"
+}

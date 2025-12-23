@@ -1,0 +1,9 @@
+{
+  "id": "sql-l3-1",
+  "title": "Top Projects by Paid Amount",
+  "language": "sql",
+  "level": 3,
+  "prompt": "Tables (SQLite):\n- Customers(id, name)\n- Projects(id, name, customer_id)\n- Invoices(id, project_id, amount, status, issued_date)\n\nUsing a CTE, return the top 5 projects by total paid invoice amount, including customer name, project name, and total_paid. Starter query has join/alias mistakes.",
+  "starterCode": "WITH paid AS (\n  SELECT project_id, SUM(amount) AS total_paid\n  FROM Invoices\n  WHERE status = 'PAID'\n  GROUP BY project\n)\nSELECT c.name AS customer_name, p.name AS project_name, paid.total_paid\nFROM paid\nJOIN Projects p ON p.id = paid.project\nJOIN Customers c ON c.id = p.customer\nORDER BY total_paid DESC\nLIMIT 5;\n",
+  "solutionCode": "WITH paid AS (\n  SELECT project_id, SUM(amount) AS total_paid\n  FROM Invoices\n  WHERE status = 'PAID'\n  GROUP BY project_id\n)\nSELECT c.name AS customer_name, p.name AS project_name, paid.total_paid\nFROM paid\nJOIN Projects p ON p.id = paid.project_id\nJOIN Customers c ON c.id = p.customer_id\nORDER BY paid.total_paid DESC\nLIMIT 5;\n"
+}

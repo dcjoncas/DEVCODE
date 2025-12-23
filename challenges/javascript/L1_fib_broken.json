@@ -1,0 +1,8 @@
+﻿{
+  "id": "js_l1_fib_broken",
+  "title": "Fix Fibonacci (off-by-one)",
+  "language": "javascript",
+  "level": 1,
+  "prompt": "Fix the function so fib(0)=0, fib(1)=1, fib(2)=1, ...",
+  "starterCode": "function fib(n) {\n  if (n <= 1) return 1; // wrong\n  return fib(n-1) + fib(n-2);\n}\n\nconsole.log(Array.from({length: 10}, (_, i) => fib(i)));\n"
+}

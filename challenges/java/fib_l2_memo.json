@@ -1,0 +1,9 @@
+{
+  "id": "java-fib-l2-1",
+  "title": "Fibonacci with Memo (Java)",
+  "language": "java",
+  "level": 2,
+  "prompt": "Compute fib(n) efficiently using memoization. Starter code allocates memo but forgets to write into it.",
+  "starterCode": "import java.util.*;\n\npublic class Main {\n  static int fib(int n, Map<Integer,Integer> memo) {\n    if (memo.containsKey(n)) return memo.get(n);\n    if (n <= 1) return n;\n\n    int v = fib(n - 1, memo) + fib(n - 2, memo);\n    // BUG: never memo.put(n, v)\n    return v;\n  }\n\n  public static void main(String[] args) {\n    Map<Integer,Integer> memo = new HashMap<>();\n    System.out.println(fib(10, memo)); // 55\n    System.out.println(fib(35, memo)); // 9227465\n  }\n}\n",
+  "solutionCode": "import java.util.*;\n\npublic class Main {\n  static int fib(int n, Map<Integer,Integer> memo) {\n    if (memo.containsKey(n)) return memo.get(n);\n    if (n <= 1) return n;\n\n    int v = fib(n - 1, memo) + fib(n - 2, memo);\n    memo.put(n, v);\n    return v;\n  }\n\n  public static void main(String[] args) {\n    Map<Integer,Integer> memo = new HashMap<>();\n    System.out.println(fib(10, memo)); // 55\n    System.out.println(fib(35, memo)); // 9227465\n  }\n}\n"
+}
