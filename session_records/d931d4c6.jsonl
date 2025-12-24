@@ -1,0 +1,20 @@
+{"ts":1766520320230,"sessionId":"d931d4c6","type":"languageUpdate","lang":"sql"}
+{"ts":1766520325887,"sessionId":"d931d4c6","type":"challengeLoaded","source":"library","id":"sql-l2-1","language":"sql","level":2}
+{"ts":1766520326034,"sessionId":"d931d4c6","type":"languageUpdate","lang":"sql"}
+{"ts":1766520326044,"sessionId":"d931d4c6","type":"challengeUpdate","id":"sql-l2-1","source":"library","title":"Customer Revenue (Paid Invoices)","prompt":"Tables (SQLite):\n- Customers(id, name)\n- Projects(id, name, customer_id)\n- Invoices(id, project_id, amount, status, issued_date)\n\nReturn total paid invoice amount per customer (only status='PAID'), ordered by total_amount desc. Starter query has a GROUP BY bug.","language":"sql","level":2}
+{"ts":1766520353982,"sessionId":"d931d4c6","type":"recordingStarted","startedAt":1766520353982}
+{"ts":1766520353982,"sessionId":"d931d4c6","type":"codeSnapshot","reason":"recording_start","code":"SELECT c.name, SUM(i.amount) AS total_amount\nFROM Customers c\nJOIN Projects p ON p.customer_id = c.id\nJOIN Invoices i ON i.project_id = p.id\nWHERE i.status = 'PAID'\nGROUP BY c.id, c.name, i.amount\nORDER BY total_amount DESC;\n","truncated":false}
+{"ts":1766520353983,"sessionId":"d931d4c6","type":"languageUpdate","lang":"sql"}
+{"ts":1766520353983,"sessionId":"d931d4c6","type":"outputSnapshot","text":"","truncated":false,"reason":"recording_start"}
+{"ts":1766520534482,"sessionId":"d931d4c6","type":"codeSnapshot","reason":"run","code":"SELECT c.name, SUM(i.amount) AS total_amount\nFROM Customers c\nJOIN Projects p ON p.customer_id = c.id\nJOIN Invoices i ON i.project_id = p.id\nWHERE i.status = 'PAID'\nGROUP BY c.id, c.name, i.amount\nORDER BY total_amount DESC;\n","truncated":false}
+{"ts":1766520534483,"sessionId":"d931d4c6","type":"run","language":"sql","codeLength":225}
+{"ts":1766520534488,"sessionId":"d931d4c6","type":"runResult","output":"SQL error: SQLITE_ERROR: no such column: i.status","truncated":false}
+{"ts":1766520534490,"sessionId":"d931d4c6","type":"outputSnapshot","text":"SQL error: SQLITE_ERROR: no such column: i.status","truncated":false,"reason":"run_finish"}
+{"ts":1766520542709,"sessionId":"d931d4c6","type":"codeSnapshot","reason":"recording_stop","code":"SELECT c.name, SUM(i.amount) AS total_amount\nFROM Customers c\nJOIN Projects p ON p.customer_id = c.id\nJOIN Invoices i ON i.project_id = p.id\nWHERE i.status = 'PAID'\nGROUP BY c.id, c.name, i.amount\nORDER BY total_amount DESC;\n","truncated":false}
+{"ts":1766520542709,"sessionId":"d931d4c6","type":"outputSnapshot","text":"SQL error: SQLITE_ERROR: no such column: i.status","truncated":false,"reason":"recording_stop"}
+{"ts":1766520542710,"sessionId":"d931d4c6","type":"recordingStopped","stoppedAt":1766520542710}
+{"ts":1766520545727,"sessionId":"d931d4c6","type":"sessionEnded","reason":"ended_by_host"}
+{"ts":1766520545734,"sessionId":"d931d4c6","type":"disconnect","socketId":"YuUKPXhUZyW9ljs8AAAn","reason":"transport close"}
+{"ts":1766520596189,"sessionId":"d931d4c6","type":"candidateMetaUpdate","first":"Santiago","last":"Romero","source":"candidate_join"}
+{"ts":1766520678082,"sessionId":"d931d4c6","type":"disconnect","socketId":"JrWfPrsNHOFpym_tAAAs","reason":"transport close"}
+{"ts":1766520690447,"sessionId":"d931d4c6","type":"candidateMetaUpdate","first":"Santiago","last":"Romero","source":"candidate_join"}

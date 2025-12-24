@@ -9,3 +9,7 @@
 {"ts":1766458466574,"sessionId":"e253c383","type":"run","language":"python","codeLength":191}
 {"ts":1766458466717,"sessionId":"e253c383","type":"runResult","output":"0\r\n1\r\n8\r\n","truncated":false}
 {"ts":1766458466717,"sessionId":"e253c383","type":"outputSnapshot","text":"0\r\n1\r\n8\r\n","truncated":false,"reason":"run_finish"}
+{"ts":1766460218711,"sessionId":"e253c383","type":"sessionEnded","reason":"expired"}
+{"ts":1766461497729,"sessionId":"e253c383","type":"disconnect","socketId":"P57FnHlhPva0d5MrAAAX","reason":"transport close"}
+{"ts":1766461506340,"sessionId":"e253c383","type":"sessionEnded","reason":"ended_by_host"}
+{"ts":1766461506347,"sessionId":"e253c383","type":"disconnect","socketId":"kTLHLV3k5t4ATc6hAAAZ","reason":"transport close"}

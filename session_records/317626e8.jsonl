@@ -1,0 +1,27 @@
+{"ts":1766526476341,"sessionId":"317626e8","type":"languageUpdate","lang":"sql"}
+{"ts":1766526478079,"sessionId":"317626e8","type":"challengeLoaded","source":"library","id":"sql-l1-1","language":"sql","level":1}
+{"ts":1766526488789,"sessionId":"317626e8","type":"codeSnapshot","reason":"run","code":"-- DEVREADY_CHALLENGE: {\"title\":\"Fix the SELECT\",\"level\":1,\"language\":\"sql\"}\n-- Title: Fix the SELECT\n-- Level: 1\n-- Prompt:\n-- Tables (SQLite):\n-- - Customers(id, name)\n-- - Projects(id, name, customer_id)\n-- - Invoices(id, project_id, amount, status, issued_date)\n-- \n-- Return 10 customers ordered by name. The query has a small syntax bug; fix it.\nSELECT id, name\nFORM Customers\nORDER BY name\nLIMIT 10;\n","truncated":false}
+{"ts":1766526488791,"sessionId":"317626e8","type":"run","language":"sql","codeLength":407}
+{"ts":1766526488791,"sessionId":"317626e8","type":"runResult","output":"Only read queries are allowed (SELECT/WITH/PRAGMA/EXPLAIN) in this mode.","truncated":false}
+{"ts":1766526488792,"sessionId":"317626e8","type":"outputSnapshot","text":"Only read queries are allowed (SELECT/WITH/PRAGMA/EXPLAIN) in this mode.","truncated":false,"reason":"run_finish"}
+{"ts":1766526503980,"sessionId":"317626e8","type":"codeSnapshot","reason":"run","code":"SELECT id, name\nFORM Customers\nORDER BY name\nLIMIT 10;\n","truncated":false}
+{"ts":1766526503980,"sessionId":"317626e8","type":"run","language":"sql","codeLength":55}
+{"ts":1766526503984,"sessionId":"317626e8","type":"runResult","output":"SQL error: SQLITE_ERROR: near \"Customers\": syntax error","truncated":false}
+{"ts":1766526503984,"sessionId":"317626e8","type":"outputSnapshot","text":"SQL error: SQLITE_ERROR: near \"Customers\": syntax error","truncated":false,"reason":"run_finish"}
+{"ts":1766526513385,"sessionId":"317626e8","type":"codeSnapshot","reason":"run","code":"SELECT id, name\nFROM Customers\nORDER BY name\nLIMIT 10;\n","truncated":false}
+{"ts":1766526513385,"sessionId":"317626e8","type":"run","language":"sql","codeLength":55}
+{"ts":1766526513392,"sessionId":"317626e8","type":"runResult","output":"Id | Name                     \n---+--------------------------\n1  | Acme Manufacturing       \n8  | Aurora Tech Solutions    \n6  | BlueSky Health Systems   \n3  | Global Retail Group      \n2  | Northwind Logistics      \n4  | Pioneer Energy Services  \n5  | Summit Financial Partners\n7  | Vertex Construction Group","truncated":false}
+{"ts":1766526513393,"sessionId":"317626e8","type":"outputSnapshot","text":"Id | Name                     \n---+--------------------------\n1  | Acme Manufacturing       \n8  | Aurora Tech Solutions    \n6  | BlueSky Health Systems   \n3  | Global Retail Group      \n2  | Northwind Logistics      \n4  | Pioneer Energy Services  \n5  | Summit Financial Partners\n7  | Vertex Construction Group","truncated":false,"reason":"run_finish"}
+{"ts":1766526520585,"sessionId":"317626e8","type":"codeSnapshot","reason":"run","code":"-- DEVREADY_CHALLENGE: {\"title\":\"Fix the SELECT\",\"level\":1,\"language\":\"sql\"}\n-- Title: Fix the SELECT\n-- Level: 1\n-- Prompt:\n-- Tables (SQLite):\n-- - Customers(id, name)\n-- - Projects(id, name, customer_id)\n-- - Invoices(id, project_id, amount, status, issued_date)\n-- \n-- Return 10 customers ordered by name. The query has a small syntax bug; fix it.\nSELECT id, name\nFORM Customers\nORDER BY name\nLIMIT 10;\n","truncated":false}
+{"ts":1766526520586,"sessionId":"317626e8","type":"run","language":"sql","codeLength":407}
+{"ts":1766526520586,"sessionId":"317626e8","type":"runResult","output":"Only read queries are allowed (SELECT/WITH/PRAGMA/EXPLAIN) in this mode.","truncated":false}
+{"ts":1766526520587,"sessionId":"317626e8","type":"outputSnapshot","text":"Only read queries are allowed (SELECT/WITH/PRAGMA/EXPLAIN) in this mode.","truncated":false,"reason":"run_finish"}
+{"ts":1766527197627,"sessionId":"317626e8","type":"disconnect","socketId":"cX0Wmlqa7h7iBL9vAAAF","reason":"transport close"}
+{"ts":1766527220145,"sessionId":"317626e8","type":"challengeLoaded","source":"library","id":"sql-l1-1","language":"sql","level":1}
+{"ts":1766527259265,"sessionId":"317626e8","type":"disconnect","socketId":"Futv-AbX0wDJUWLfAAAH","reason":"transport close"}
+{"ts":1766527263401,"sessionId":"317626e8","type":"challengeLoaded","source":"library","id":"sql-l1-1","language":"sql","level":1}
+{"ts":1766527355488,"sessionId":"317626e8","type":"challengeLoaded","source":"library","id":"sql-l1-1","language":"sql","level":1}
+{"ts":1766527701128,"sessionId":"317626e8","type":"disconnect","socketId":"h-tB5PYkvyMPh8xwAAAJ","reason":"transport close"}
+{"ts":1766528288038,"sessionId":"317626e8","type":"sessionEnded","reason":"expired"}
+{"ts":1766528291061,"sessionId":"317626e8","type":"sessionEnded","reason":"ended_by_host"}
+{"ts":1766528291065,"sessionId":"317626e8","type":"disconnect","socketId":"MdUbXed7ieuLiXvzAAAN","reason":"transport error"}

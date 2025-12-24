@@ -12,16 +12,10 @@
     --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
 }
 
-* {
-    box-sizing: border-box;
-}
+* { box-sizing: border-box; }
 
-/* ✅ Make the overall page a fixed-height column
-   Header + session bar take natural height
-   Main consumes the rest (no calc guessing) */
-html, body {
-    height: 100%;
-}
+/* ✅ fixed-height column layout */
+html, body { height: 100%; }
 
 body {
     margin: 0;
@@ -50,9 +44,7 @@ body {
     gap: 12px;
 }
 
-.dr-logo {
-    height: 30px;
-}
+.dr-logo { height: 30px; }
 
 .dr-title {
     font-size: 1.05rem;
@@ -151,16 +143,13 @@ body {
     color: var(--blue);
     text-decoration: none;
 }
+.dr-link:hover { text-decoration: underline; }
 
-.dr-link:hover {
-    text-decoration: underline;
-}
-
-/* ✅ Main now fills remaining viewport height reliably */
+/* ✅ Main fills remaining height */
 .dr-main {
     display: flex;
     flex: 1 1 auto;
-    min-height: 0; /* critical for nested flex scrolling behavior */
+    min-height: 0;
 }
 
 .dr-left {
@@ -178,7 +167,6 @@ body {
     border-left: 1px solid var(--border);
     background: #fbfdff;
 
-    /* ✅ Right side is a fixed-height column; children manage overflow */
     display: flex;
     flex-direction: column;
     gap: 10px;
@@ -226,15 +214,8 @@ button {
     cursor: pointer;
     box-shadow: 0 1px 0 rgba(0, 0, 0, 0.03);
 }
-
-button:hover {
-    border-color: #cbd5e1;
-}
-
-button:disabled {
-    opacity: 0.55;
-    cursor: not-allowed;
-}
+button:hover { border-color: #cbd5e1; }
+button:disabled { opacity: 0.55; cursor: not-allowed; }
 
 button#run {
     background: var(--green);
@@ -248,21 +229,7 @@ button#hint {
     color: #1d4ed8;
 }
 
-.dr-inline-label {
-    color: var(--muted);
-    font-size: 0.85rem;
-    font-weight: 650;
-}
-
-.dr-small-select {
-    padding: 7px 10px;
-    border-radius: 10px;
-    border: 1px solid var(--border);
-    background: var(--panel);
-    color: var(--text);
-    font-size: 0.85rem;
-}
-
+/* ✅ Editor area now hosts Monaco */
 .dr-editor-wrap {
     flex: 1;
     display: flex;
@@ -274,22 +241,14 @@ button#hint {
     min-height: 0;
 }
 
-.dr-lines {
-    margin: 0;
-    padding: 12px 10px;
-    width: 46px;
-    background: #f9fafb;
-    border-right: 1px solid var(--border);
-    color: #9ca3af;
-    font-family: var(--mono);
-    font-size: 0.9rem;
-    line-height: 1.35rem;
-    text-align: right;
-    user-select: none;
-    overflow: hidden;
+/* Monaco container */
+.dr-monaco {
+    flex: 1;
+    min-height: 0;
 }
 
-#editor {
+/* Fallback textarea */
+#editor-textarea {
     flex: 1;
     border: none;
     padding: 12px 12px;
@@ -300,11 +259,11 @@ button#hint {
     resize: none;
     background: #ffffff;
     color: #111827;
-
     height: 100%;
     min-height: 0;
 }
 
+/* Right headings */
 .dr-right h3 {
     margin: 0;
     font-size: 0.95rem;
@@ -312,38 +271,25 @@ button#hint {
     flex: 0 0 auto;
 }
 
-/* ✅ Challenge/description box:
-   - WRAPS (carriage return behavior)
-   - DOES NOT SCROLL
-   - DOES NOT GROW PANEL
-   - CLIPS after N lines */
-#challenge,
-#challenge-box,
-#challenge-panel,
-.dr-challenge,
-.dr-challenge-box,
-.dr-challenge-panel,
-.dr-challenge-card {
+/* ✅ Challenge box: wraps, no scroll, clamps lines */
+#challenge-box {
     flex: 0 0 auto;
     min-height: 0;
 
-    /* wrap like you want */
     white-space: pre-wrap;
     word-break: break-word;
 
-    /* show up to ~8 lines then clip (no scroll) */
     line-height: 1.35rem;
     max-height: calc(1.35rem * 8);
 
     overflow: hidden;
 
-    /* multiline clamp (works in Chromium/Edge/Safari) */
     display: -webkit-box;
     -webkit-line-clamp: 8;
     -webkit-box-orient: vertical;
 }
 
-/* ✅ Output takes remaining space and is the only scrollable area */
+/* ✅ Output takes remaining space and scrolls */
 #output {
     flex: 1 1 auto;
     min-height: 0;
@@ -386,13 +332,8 @@ button#hint {
 }
 
 @keyframes drspin {
-    from {
-        transform: rotate(0deg);
-    }
-
-    to {
-        transform: rotate(360deg);
-    }
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
 }
 
 /* ===== Candidate name modal ===== */
@@ -406,7 +347,6 @@ button#hint {
     padding: 16px;
     z-index: 9999;
 }
-
 .dr-modal.show {
     display: flex;
 }
@@ -473,4 +413,48 @@ button#hint {
     margin-top: 10px;
     font-size: 0.85rem;
     color: #b91c1c;
+}
+
+/* ===== Solve modal (iframe) ===== */
+.dr-solve-modal {
+    background: rgba(0, 0, 0, 0.75);
+}
+
+.dr-solve-card {
+    max-width: 1200px;
+    width: 95vw;
+    height: 88vh;
+    padding: 12px;
+    border-radius: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.dr-solve-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    flex: 0 0 auto;
+}
+
+.dr-solve-title {
+    font-weight: 800;
+    font-size: 0.95rem;
+    color: #111827;
+}
+
+.dr-solve-close {
+    padding: 7px 12px;
+    border-radius: 10px;
+}
+
+.dr-solve-frame {
+    flex: 1 1 auto;
+    min-height: 0;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    width: 100%;
+    background: #000;
 }

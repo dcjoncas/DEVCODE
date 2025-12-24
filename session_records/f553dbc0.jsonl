@@ -1,0 +1,28 @@
+{"ts":1766535062815,"sessionId":"f553dbc0","type":"languageUpdate","lang":"sql"}
+{"ts":1766535064181,"sessionId":"f553dbc0","type":"challengeLoaded","source":"library","id":"sql-l1-1","language":"sql","level":1}
+{"ts":1766535064326,"sessionId":"f553dbc0","type":"languageUpdate","lang":"sql"}
+{"ts":1766535064328,"sessionId":"f553dbc0","type":"challengeUpdate","id":"sql-l1-1","source":"library","title":"Fix the SELECT","prompt":"Tables (SQLite):\n- Customers(id, name)\n- Projects(id, name, customer_id)\n- Invoices(id, project_id, amount, status, issued_date)\n\nReturn 10 customers ordered by name. The query has a small syntax bug; fix it.","language":"sql","level":1}
+{"ts":1766535067201,"sessionId":"f553dbc0","type":"codeSnapshot","reason":"run","code":"SELECT id, name\nFORM Customers\nORDER BY name\nLIMIT 10;\n","truncated":false}
+{"ts":1766535067202,"sessionId":"f553dbc0","type":"run","language":"sql","codeLength":55}
+{"ts":1766535067223,"sessionId":"f553dbc0","type":"runResult","output":"SQL error: SQLITE_ERROR: near \"Customers\": syntax error","truncated":false}
+{"ts":1766535067224,"sessionId":"f553dbc0","type":"outputSnapshot","text":"SQL error: SQLITE_ERROR: near \"Customers\": syntax error","truncated":false,"reason":"run_finish"}
+{"ts":1766535192431,"sessionId":"f553dbc0","type":"languageUpdate","lang":"sql"}
+{"ts":1766535195167,"sessionId":"f553dbc0","type":"codeSnapshot","reason":"run","code":"SELECT id, name\nFORM Customers\nORDER BY name\nLIMIT 10;\n","truncated":false}
+{"ts":1766535195168,"sessionId":"f553dbc0","type":"run","language":"sql","codeLength":55}
+{"ts":1766535195175,"sessionId":"f553dbc0","type":"runResult","output":"SQL error: SQLITE_ERROR: near \"Customers\": syntax error","truncated":false}
+{"ts":1766535195175,"sessionId":"f553dbc0","type":"outputSnapshot","text":"SQL error: SQLITE_ERROR: near \"Customers\": syntax error","truncated":false,"reason":"run_finish"}
+{"ts":1766535200734,"sessionId":"f553dbc0","type":"challengeLoaded","source":"library","id":"sql-l2-1","language":"sql","level":2}
+{"ts":1766535200889,"sessionId":"f553dbc0","type":"languageUpdate","lang":"sql"}
+{"ts":1766535200917,"sessionId":"f553dbc0","type":"challengeUpdate","id":"sql-l2-1","source":"library","title":"Customer Revenue (Paid Invoices)","prompt":"Tables (SQLite):\n- Customers(id, name)\n- Projects(id, name, customer_id)\n- Invoices(id, project_id, amount, status, issued_date)\n\nReturn total paid invoice amount per customer (only status='PAID'), ordered by total_amount desc. Starter query has a GROUP BY bug.","language":"sql","level":2}
+{"ts":1766535349226,"sessionId":"f553dbc0","type":"languageUpdate","lang":"python"}
+{"ts":1766535351044,"sessionId":"f553dbc0","type":"challengeLoaded","source":"library","id":"py-fib-l2-1","language":"python","level":2}
+{"ts":1766535351195,"sessionId":"f553dbc0","type":"languageUpdate","lang":"python"}
+{"ts":1766535351206,"sessionId":"f553dbc0","type":"challengeUpdate","id":"py-fib-l2-1","source":"library","title":"Fibonacci with Memoization","prompt":"Implement fib(n) efficiently using memoization (top-down). The starter code intends to use a memo dict but has a bug. Fix it so fib(35) runs fast.","language":"python","level":2}
+{"ts":1766535355869,"sessionId":"f553dbc0","type":"codeSnapshot","reason":"run","code":"def fib(n: int, memo=None) -> int:\n    # Intended: memoization\n    if memo is None:\n        memo = {}\n\n    if n in memo:\n        return memo[n]\n\n    if n <= 1:\n        return n\n\n    # BUG: forgetting to pass memo\n    memo[n] = fib(n - 1) + fib(n - 2)\n    return memo[n]\n\nif __name__ == \"__main__\":\n    print(fib(10))   # 55\n    print(fib(35))   # 9227465\n","truncated":false}
+{"ts":1766535355870,"sessionId":"f553dbc0","type":"run","language":"python","codeLength":355}
+{"ts":1766535363896,"sessionId":"f553dbc0","type":"runResult","output":"Command failed: python \"C:\\DEVCODE\\server\\script.py\"\n","truncated":false}
+{"ts":1766535363897,"sessionId":"f553dbc0","type":"outputSnapshot","text":"Command failed: python \"C:\\DEVCODE\\server\\script.py\"\n","truncated":false,"reason":"run_finish"}
+{"ts":1766535386328,"sessionId":"f553dbc0","type":"codeSnapshot","reason":"run","code":"def fib(n: int, memo=None) -> int:\n    if memo is None:\n        memo = {}\n\n    if n in memo:\n        return memo[n]\n\n    if n <= 1:\n        return n\n\n    memo[n] = fib(n - 1, memo) + fib(n - 2, memo)\n    return memo[n]\n\nif __name__ == \"__main__\":\n    print(fib(10))   # 55\n    print(fib(35))   # 9227465\n","truncated":false}
+{"ts":1766535386329,"sessionId":"f553dbc0","type":"run","language":"python","codeLength":304}
+{"ts":1766535386506,"sessionId":"f553dbc0","type":"runResult","output":"55\r\n9227465\r\n","truncated":false}
+{"ts":1766535386507,"sessionId":"f553dbc0","type":"outputSnapshot","text":"55\r\n9227465\r\n","truncated":false,"reason":"run_finish"}

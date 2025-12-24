@@ -24,6 +24,15 @@ app.use(express.json({ limit: "6mb" }));
 // Serve client UI
 app.use(express.static(path.join(__dirname, "client")));
 
+// ✅ Monaco static (AMD loader expects /monaco/vs/...)
+const MONACO_VS = path.join(__dirname, "node_modules", "monaco-editor", "min", "vs");
+if (fs.existsSync(MONACO_VS)) {
+  app.use("/monaco/vs", express.static(MONACO_VS));
+  console.log("[MONACO] Serving:", MONACO_VS);
+} else {
+  console.log("[MONACO] Not found:", MONACO_VS, " -> run: npm i monaco-editor");
+}
+
 // ✅ Logo support even if stored in /templates
 app.get("/dev-ready-logo.svg", (req, res) => {
   const pClient = path.join(__dirname, "client", "dev-ready-logo.svg");
@@ -293,12 +302,10 @@ function requireHostKey(req, sessionId) {
 }
 
 function extractResponsesText(json) {
-  // Most reliable in current Responses API: output_text
   if (json && typeof json.output_text === "string" && json.output_text.trim()) {
     return json.output_text.trim();
   }
 
-  // Fallback: older content-walk
   let text = "";
   if (json && Array.isArray(json.output)) {
     for (const item of json.output) {
@@ -319,7 +326,6 @@ app.get("/", (req, res) => res.sendFile(path.join(__dirname, "client", "index.ht
 app.get("/session/:id", (req, res) => res.sendFile(path.join(__dirname, "client", "index.html")));
 
 app.get("/solve/:id", (req, res) => {
-  // reduce caching surprises
   res.setHeader("Cache-Control", "no-store");
   res.sendFile(path.join(__dirname, "client", "solve.html"));
 });
@@ -353,7 +359,7 @@ app.get("/api/records", (req, res) => {
       size: st.size,
       modifiedAt: st.mtimeMs
     };
-  }).sort((a, b) => b.modifiedAt - a.modifiedAt);
+  }).sort((a, b) => b.modifiedAt - b.modifiedAt);
 
   res.json({ records: list });
 });
@@ -373,7 +379,6 @@ app.get("/api/record/:id", (req, res) => {
 });
 
 // OPTIONAL: Delete a record file (dev-friendly)
-// DELETE /api/record/:id?admin=YOUR_ADMIN_KEY
 app.delete("/api/record/:id", (req, res) => {
   const adminKey = process.env.ADMIN_KEY;
   if (adminKey) {
@@ -398,7 +403,6 @@ app.delete("/api/record/:id", (req, res) => {
 // Challenge APIs
 // =======================
 
-// ✅ Random from library: /api/challenge/random?sessionId=abc&lang=python&level=1&k=<hostKey>
 app.get("/api/challenge/random", (req, res) => {
   const sessionId = String(req.query.sessionId || "").trim();
   const lang = normalizeLang(req.query.lang);
@@ -419,7 +423,6 @@ app.get("/api/challenge/random", (req, res) => {
 
   logEvent(sessionId, "challengeLoaded", { source: "library", id: ch.id, language: lang, level }, true);
 
-  // broadcast prompt/title to both
   io.to(sessionId).emit("challengeUpdate", {
     id: ch.id,
     source: "library",
@@ -432,8 +435,6 @@ app.get("/api/challenge/random", (req, res) => {
   res.json({ challenge: ch });
 });
 
-// ✅ AI challenge: /api/challenge/ai?k=<hostKey>  (POST)
-// body: { sessionId, lang, level }
 app.post("/api/challenge/ai", async (req, res) => {
   const sessionId = String(req.body?.sessionId || "").trim();
   const lang = normalizeLang(req.body?.lang);
@@ -539,7 +540,6 @@ app.post("/api/challenge/ai", async (req, res) => {
   }
 });
 
-// ✅ Solve: /api/challenge/solve?sessionId=abc&k=<hostKey>
 app.get("/api/challenge/solve", async (req, res) => {
   const sessionId = String(req.query.sessionId || "").trim();
   if (!sessionId) return res.status(400).json({ error: "Missing sessionId" });
@@ -550,7 +550,6 @@ app.get("/api/challenge/solve", async (req, res) => {
   const ch = s.currentChallenge;
   if (!ch) return res.status(400).json({ error: "No challenge loaded for this session yet." });
 
-  // If challenge includes solutionCode, use it (fast + reliable + avoids blank).
   if (ch.solutionCode && String(ch.solutionCode).trim()) {
     return res.json({
       ok: true,
@@ -643,7 +642,6 @@ io.on("connection", (socket) => {
     socket.data.role = role || "candidate";
     socket.join(sessionId);
 
-    // Candidate name
     if (socket.data.role === "candidate" && candidateMeta) {
       const first = String(candidateMeta.first || "").trim();
       const last = String(candidateMeta.last || "").trim();
@@ -656,7 +654,6 @@ io.on("connection", (socket) => {
       }
     }
 
-    // IMPORTANT: host gets hostKey; candidate does not
     socket.emit("sessionJoined", {
       expiresAt: s.expiresAt,
       candidateMeta: s.candidateMeta,
@@ -684,11 +681,9 @@ io.on("connection", (socket) => {
     }
 
     socket.emit("recordingStatus", { active: s.recordingActive, recordExists: recordExists(sessionId) });
-
     console.log(`[SOCKET] joinSession: ${socket.id} -> ${sessionId} role: ${socket.data.role}`);
   });
 
-  // host-only: broadcast challenge text manually (optional)
   socket.on("challengeUpdate", (payload) => {
     const sessionId = socket.data.sessionId;
     if (!sessionId || !isSessionActive(sessionId)) return;
@@ -719,8 +714,6 @@ io.on("connection", (socket) => {
     s.recordingStoppedAt = null;
 
     logEvent(sessionId, "recordingStarted", { startedAt: s.recordingStartedAt }, true);
-
-    // Snapshot state at start
     maybeLogCodeSnapshot(sessionId, s.lastCode || "", "recording_start", true);
     logEvent(sessionId, "languageUpdate", { lang: s.lastLang || "python" }, true);
 
@@ -760,9 +753,7 @@ io.on("connection", (socket) => {
     const s = ensureSession(sessionId);
     s.lastCode = String(code || "");
 
-    // Only record typing snapshots when recording is active (handled inside)
     maybeLogCodeSnapshot(sessionId, s.lastCode, "typing", false);
-
     socket.to(sessionId).emit("codeUpdate", s.lastCode);
   });
 
@@ -773,9 +764,7 @@ io.on("connection", (socket) => {
     const s = ensureSession(sessionId);
     s.lastLang = String(lang || "python");
 
-    // language is important -> always record
     logEvent(sessionId, "languageUpdate", { lang: s.lastLang }, true);
-
     socket.to(sessionId).emit("languageUpdate", s.lastLang);
   });
 
@@ -786,7 +775,6 @@ io.on("connection", (socket) => {
     const s = ensureSession(sessionId);
     s.lastOutput = String(text || "");
 
-    // output is important -> always record
     const capped = capText(s.lastOutput);
     logEvent(sessionId, "outputSnapshot", { text: capped.text, truncated: capped.truncated, reason: "client_outputUpdate" }, true);
 
@@ -885,7 +873,6 @@ io.on("connection", (socket) => {
       const capped = capText(hintText);
       logEvent(sessionId, "hintResponse", { hint: capped.text, truncated: capped.truncated, hintsLeft: s.hintsLeft }, true);
 
-      // ✅ broadcast to BOTH candidate + interviewer
       io.to(sessionId).emit("hintResponse", { hint: hintText, hintsLeft: s.hintsLeft, broadcast: true });
     } catch (e) {
       const msg = `AI hint error: ${e.message}`;
@@ -914,7 +901,6 @@ app.post("/run", (req, res) => {
   s.lastCode = String(code || "");
   s.lastLang = String(language || "python");
 
-  // ✅ always record run metadata + a snapshot before run
   maybeLogCodeSnapshot(sessionId, s.lastCode, "run", true);
   logEvent(sessionId, "run", { language: s.lastLang, codeLength: s.lastCode.length }, true);
 
@@ -922,14 +908,11 @@ app.post("/run", (req, res) => {
     const text = String(out || "");
     s.lastOutput = text;
 
-    // ✅ always record output for replay
     const capped = capText(text);
     logEvent(sessionId, "runResult", { output: capped.text, truncated: capped.truncated }, true);
     logEvent(sessionId, "outputSnapshot", { text: capped.text, truncated: capped.truncated, reason: "run_finish" }, true);
 
-    // ✅ server broadcasts output -> both screens always update
     io.to(sessionId).emit("outputUpdate", text);
-
     return res.json({ output: text });
   };
 

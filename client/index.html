@@ -91,9 +91,12 @@
         </div>
       </div>
 
+      <!-- Monaco lives here -->
       <div class="dr-editor-wrap">
-        <pre id="line-numbers" class="dr-lines">1</pre>
-        <textarea id="editor" spellcheck="false"></textarea>
+        <div id="editor" class="dr-monaco"></div>
+
+        <!-- Fallback (hidden). If Monaco fails to load, JS will show this. -->
+        <textarea id="editor-textarea" spellcheck="false" style="display:none;"></textarea>
       </div>
     </section>
 
@@ -106,6 +109,7 @@
     </section>
   </main>
 
+  <!-- Candidate name modal -->
   <div id="name-modal" class="dr-modal" aria-hidden="true">
     <div class="dr-modal-card">
       <div class="dr-modal-title">Enter your name</div>
@@ -130,7 +134,22 @@
     </div>
   </div>
 
+  <!-- ✅ Solve modal (NO POPUPS, keeps your black Solve UI via iframe) -->
+  <div id="solve-modal" class="dr-modal dr-solve-modal" aria-hidden="true">
+    <div class="dr-modal-card dr-solve-card">
+      <div class="dr-solve-head">
+        <div class="dr-solve-title">Solve (Host Only)</div>
+        <button id="close-solve" class="dr-solve-close">Close</button>
+      </div>
+      <iframe id="solve-frame" class="dr-solve-frame" title="Solve"></iframe>
+    </div>
+  </div>
+
   <script src="/socket.io/socket.io.js"></script>
+
+  <!-- Monaco AMD loader (served by Express at /monaco/vs/...) -->
+  <script src="/monaco/vs/loader.js"></script>
+
   <script src="/editor.js"></script>
 </body>
 

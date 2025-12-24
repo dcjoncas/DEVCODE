@@ -1,0 +1,6 @@
+{"ts":1766520598242,"sessionId":"0cea334c","type":"languageUpdate","lang":"sql"}
+{"ts":1766520615314,"sessionId":"0cea334c","type":"challengeLoaded","source":"library","id":"sql-l2-1","language":"sql","level":2}
+{"ts":1766520615457,"sessionId":"0cea334c","type":"languageUpdate","lang":"sql"}
+{"ts":1766520615465,"sessionId":"0cea334c","type":"challengeUpdate","id":"sql-l2-1","source":"library","title":"Customer Revenue (Paid Invoices)","prompt":"Tables (SQLite):\n- Customers(id, name)\n- Projects(id, name, customer_id)\n- Invoices(id, project_id, amount, status, issued_date)\n\nReturn total paid invoice amount per customer (only status='PAID'), ordered by total_amount desc. Starter query has a GROUP BY bug.","language":"sql","level":2}
+{"ts":1766520655942,"sessionId":"0cea334c","type":"sessionEnded","reason":"ended_by_host"}
+{"ts":1766520655946,"sessionId":"0cea334c","type":"disconnect","socketId":"pdRfCcv9po3Pmc9-AAAr","reason":"transport close"}

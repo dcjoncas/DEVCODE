@@ -1,0 +1,12 @@
+{"ts":1766532942887,"sessionId":"1baee68e","type":"challengeLoaded","source":"library","id":"py-fib-l1-1","language":"python","level":1}
+{"ts":1766532943037,"sessionId":"1baee68e","type":"languageUpdate","lang":"python"}
+{"ts":1766532943039,"sessionId":"1baee68e","type":"challengeUpdate","id":"py-fib-l1-1","source":"library","title":"Fix Fibonacci Base Case","prompt":"Implement fib(n) that returns the nth Fibonacci number with fib(0)=0, fib(1)=1. The starter code has a small base-case bug. Fix it.","language":"python","level":1}
+{"ts":1766532945400,"sessionId":"1baee68e","type":"languageUpdate","lang":"csharp"}
+{"ts":1766532946371,"sessionId":"1baee68e","type":"challengeLoaded","source":"library","id":"cs-fib-l1-1","language":"csharp","level":1}
+{"ts":1766532946537,"sessionId":"1baee68e","type":"languageUpdate","lang":"csharp"}
+{"ts":1766532946546,"sessionId":"1baee68e","type":"challengeUpdate","id":"cs-fib-l1-1","source":"library","title":"Fix Fibonacci Base Case (C#)","prompt":"Fix Fib(n) so that Fib(0)=0 and Fib(1)=1. The starter code returns the wrong value for n=0.","language":"csharp","level":1}
+{"ts":1766533003224,"sessionId":"1baee68e","type":"challengeLoaded","source":"ai","id":"cs-fib-l1-001","language":"csharp","level":1}
+{"ts":1766533003385,"sessionId":"1baee68e","type":"languageUpdate","lang":"csharp"}
+{"ts":1766533003387,"sessionId":"1baee68e","type":"challengeUpdate","id":"cs-fib-l1-001","source":"ai","title":"Fix the Fibonacci base case","prompt":"Fix the base case so Fib returns the 0-indexed Fibonacci number. Current code breaks for n=0 and n=1. Keep the signature; just correct the logic. Assume 0 <= n <= 30.","language":"csharp","level":1}
+{"ts":1766534690720,"sessionId":"1baee68e","type":"sessionEnded","reason":"ended_by_host"}
+{"ts":1766534690731,"sessionId":"1baee68e","type":"disconnect","socketId":"zkZsr_bpjihmCwQQAAAB","reason":"transport close"}

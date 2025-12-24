@@ -1,0 +1,4 @@
+{"ts":1766534941406,"sessionId":"76c5ef2e","type":"challengeLoaded","source":"library","id":"py-fib-l1-1","language":"python","level":1}
+{"ts":1766534941604,"sessionId":"76c5ef2e","type":"languageUpdate","lang":"python"}
+{"ts":1766534941605,"sessionId":"76c5ef2e","type":"challengeUpdate","id":"py-fib-l1-1","source":"library","title":"Fix Fibonacci Base Case","prompt":"Implement fib(n) that returns the nth Fibonacci number with fib(0)=0, fib(1)=1. The starter code has a small base-case bug. Fix it.","language":"python","level":1}
+{"ts":1766535059402,"sessionId":"76c5ef2e","type":"disconnect","socketId":"pMgcwyxiwUjpCReTAAAF","reason":"transport close"}

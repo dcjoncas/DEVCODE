@@ -44,3 +44,4 @@
 {"ts":1766455268573,"sessionId":"d3e16550","type":"sessionEnded","reason":"expired"}
 {"ts":1766458405504,"sessionId":"d3e16550","type":"sessionEnded","reason":"ended_by_host"}
 {"ts":1766458405508,"sessionId":"d3e16550","type":"disconnect","socketId":"2AcvWU2URlbWpGVbAAAR","reason":"transport error"}
+{"ts":1766462160868,"sessionId":"d3e16550","type":"disconnect","socketId":"wUkvyy6HUVVnALSWAAAV","reason":"ping timeout"}

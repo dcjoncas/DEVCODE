@@ -1,6 +1,5 @@
 const socket = io();
 
-const editor = document.getElementById("editor");
 const language = document.getElementById("language");
 const output = document.getElementById("output");
 const runBtn = document.getElementById("run");
@@ -23,7 +22,6 @@ const downloadRecordLink = document.getElementById("download-record");
 const replayThisLink = document.getElementById("replay-this");
 const openRecordingsLink = document.getElementById("open-recordings");
 
-const lineNumbers = document.getElementById("line-numbers");
 const processingEl = document.getElementById("processing");
 const processingText = document.getElementById("processing-text");
 
@@ -41,6 +39,15 @@ const loadChallengeBtn = document.getElementById("load-challenge");
 const solveBtn = document.getElementById("solve-challenge");
 const challengeBox = document.getElementById("challenge-box");
 
+/** Monaco DOM + fallback */
+const monacoHostEl = document.getElementById("editor");
+const fallbackTextarea = document.getElementById("editor-textarea");
+
+/** Solve modal */
+const solveModal = document.getElementById("solve-modal");
+const solveFrame = document.getElementById("solve-frame");
+const closeSolveBtn = document.getElementById("close-solve");
+
 let sessionId = null;
 let role = "host";
 let expiresAt = null;
@@ -52,6 +59,13 @@ let hostKey = null;
 let hintInFlight = false;
 let runInFlight = false;
 let challengeInFlight = false;
+
+/** Monaco state */
+let useMonaco = true;
+let monacoEditor = null;
+let monacoModel = null;
+let suppressEmit = false;
+let emitTimer = null;
 
 function setProcessing(on, label) {
   if (!processingEl) return;
@@ -67,10 +81,10 @@ function setProcessing(on, label) {
 function syncButtons() {
   const busy = hintInFlight || runInFlight || challengeInFlight;
 
-  runBtn.disabled = busy || editor.disabled;
-  clearBtn.disabled = busy || editor.disabled;
+  runBtn.disabled = busy || isEditorDisabled();
+  clearBtn.disabled = busy || isEditorDisabled();
 
-  if (hintBtn) hintBtn.disabled = busy || editor.disabled || hintBtn.textContent.includes("(0)");
+  if (hintBtn) hintBtn.disabled = busy || isEditorDisabled() || hintBtn.textContent.includes("(0)");
 
   if (role === "host") {
     if (loadChallengeBtn) loadChallengeBtn.disabled = busy || !hostKey;
@@ -78,15 +92,6 @@ function syncButtons() {
     if (challengeSource) challengeSource.disabled = busy || !hostKey;
     if (challengeLevel) challengeLevel.disabled = busy || !hostKey;
   }
-}
-
-function updateLineNumbers() {
-  const text = editor.value || "";
-  const lineCount = Math.max(1, text.split("\n").length);
-  let out = "";
-  for (let i = 1; i <= lineCount; i++) out += i + (i === lineCount ? "" : "\n");
-  lineNumbers.textContent = out;
-  lineNumbers.scrollTop = editor.scrollTop;
 }
 
 function guessLanguageFromFileName(name) {
@@ -154,6 +159,17 @@ function normalizeLang(l) {
   return s;
 }
 
+/** Map app language -> monaco language id */
+function toMonacoLang(appLang) {
+  const l = normalizeLang(appLang);
+  if (l === "python") return "python";
+  if (l === "javascript") return "javascript";
+  if (l === "sql") return "sql";
+  if (l === "csharp") return "csharp";
+  if (l === "java") return "java";
+  return "plaintext";
+}
+
 function renderChallengeBox(payload) {
   if (!challengeBox) return;
   if (!payload) {
@@ -167,6 +183,145 @@ function renderChallengeBox(payload) {
 
   challengeBox.textContent = `${title}\n${meta}\n\n${prompt}`.trim();
 }
+
+/** Editor abstraction (Monaco primary, textarea fallback) */
+function isEditorDisabled() {
+  if (useMonaco && monacoEditor) return monacoEditor.getOption(monaco.editor.EditorOption.readOnly);
+  return !!fallbackTextarea?.disabled;
+}
+
+function setEditorDisabled(disabled) {
+  if (useMonaco && monacoEditor) {
+    monacoEditor.updateOptions({ readOnly: !!disabled });
+    return;
+  }
+  if (fallbackTextarea) fallbackTextarea.disabled = !!disabled;
+}
+
+function getCode() {
+  if (useMonaco && monacoModel) return monacoModel.getValue();
+  return String(fallbackTextarea?.value || "");
+}
+
+function setCode(code, fromRemote = false) {
+  const text = String(code ?? "");
+  if (useMonaco && monacoModel) {
+    suppressEmit = !!fromRemote;
+    monacoModel.setValue(text);
+    if (fromRemote) {
+      // release suppression after microtask
+      setTimeout(() => { suppressEmit = false; }, 0);
+    }
+    return;
+  }
+  if (fallbackTextarea) {
+    fallbackTextarea.value = text;
+    if (!fromRemote) emitCodeUpdate(text);
+  }
+}
+
+function setEditorLanguage(appLang) {
+  const l = normalizeLang(appLang);
+  if (language) language.value = l;
+
+  if (useMonaco && monacoModel && window.monaco) {
+    monaco.editor.setModelLanguage(monacoModel, toMonacoLang(l));
+  }
+}
+
+function emitCodeUpdate(text) {
+  socket.emit("codeUpdate", text);
+}
+
+/** Debounced emit for Monaco typing */
+function onMonacoChange() {
+  if (suppressEmit) return;
+  if (emitTimer) clearTimeout(emitTimer);
+  emitTimer = setTimeout(() => {
+    emitCodeUpdate(getCode());
+  }, 80);
+}
+
+/** Monaco init */
+function initMonaco() {
+  // loader.js defines AMD `require`
+  if (!window.require || !monacoHostEl) {
+    useMonaco = false;
+    if (fallbackTextarea) fallbackTextarea.style.display = "block";
+    if (monacoHostEl) monacoHostEl.style.display = "none";
+    console.log("[MONACO] loader not available; using textarea fallback.");
+    return;
+  }
+
+  try {
+    window.require.config({ paths: { vs: "/monaco/vs" } });
+
+    window.require(["vs/editor/editor.main"], () => {
+      try {
+        useMonaco = true;
+
+        monacoModel = monaco.editor.createModel("", toMonacoLang(language?.value || "python"));
+        monacoEditor = monaco.editor.create(monacoHostEl, {
+          model: monacoModel,
+          automaticLayout: true,
+          fontFamily: "Consolas, Menlo, Monaco, 'Courier New', monospace",
+          fontSize: 14,
+          minimap: { enabled: false },
+          scrollBeyondLastLine: false,
+          wordWrap: "on",
+          smoothScrolling: true,
+          renderLineHighlight: "line",
+        });
+
+        monacoModel.onDidChangeContent(onMonacoChange);
+
+        // Hide fallback textarea if it exists
+        if (fallbackTextarea) fallbackTextarea.style.display = "none";
+
+        // If textarea had content (rare), carry over
+        const existing = String(fallbackTextarea?.value || "");
+        if (existing) setCode(existing, true);
+
+        syncButtons();
+      } catch (e) {
+        console.log("[MONACO] init failed:", e);
+        useMonaco = false;
+        if (fallbackTextarea) fallbackTextarea.style.display = "block";
+        if (monacoHostEl) monacoHostEl.style.display = "none";
+      }
+    });
+  } catch (e) {
+    console.log("[MONACO] require config failed:", e);
+    useMonaco = false;
+    if (fallbackTextarea) fallbackTextarea.style.display = "block";
+    if (monacoHostEl) monacoHostEl.style.display = "none";
+  }
+}
+
+function showSolveModal(url) {
+  if (!solveModal || !solveFrame) return;
+  solveFrame.src = url;
+  solveModal.classList.add("show");
+  solveModal.setAttribute("aria-hidden", "false");
+}
+
+function hideSolveModal() {
+  if (!solveModal || !solveFrame) return;
+  solveModal.classList.remove("show");
+  solveModal.setAttribute("aria-hidden", "true");
+  solveFrame.src = "about:blank";
+}
+
+if (closeSolveBtn) closeSolveBtn.addEventListener("click", hideSolveModal);
+if (solveModal) {
+  solveModal.addEventListener("click", (e) => {
+    // click outside card closes
+    if (e.target === solveModal) hideSolveModal();
+  });
+}
+window.addEventListener("keydown", (e) => {
+  if (e.key === "Escape" && solveModal?.classList.contains("show")) hideSolveModal();
+});
 
 (function initSessionFromUrl() {
   const url = new URL(window.location.href);
@@ -195,7 +350,6 @@ function renderChallengeBox(payload) {
   if (sessionLinkInput) sessionLinkInput.value = candidateLink;
 
   if (role !== "host") {
-    // hide host controls
     if (recordingStatusEl) recordingStatusEl.style.display = "none";
     if (startRecBtn) startRecBtn.style.display = "none";
     if (stopRecBtn) stopRecBtn.style.display = "none";
@@ -269,7 +423,6 @@ socket.on("sessionJoined", (data) => {
       }
     }
 
-    // if server already has a current challenge, show it
     if (data.currentChallenge) renderChallengeBox(data.currentChallenge);
   }
 
@@ -311,7 +464,7 @@ function updateSessionStatus() {
 }
 
 function disableEditor(msg) {
-  editor.disabled = true;
+  setEditorDisabled(true);
   language.disabled = true;
   runBtn.disabled = true;
   clearBtn.disabled = true;
@@ -326,24 +479,24 @@ function disableEditor(msg) {
   output.textContent = msg || "Session no longer active.";
 }
 
-editor.addEventListener("input", () => {
-  updateLineNumbers();
-  socket.emit("codeUpdate", editor.value);
-});
-
-editor.addEventListener("scroll", () => {
-  lineNumbers.scrollTop = editor.scrollTop;
-});
+/** Local -> socket for textarea fallback */
+if (fallbackTextarea) {
+  fallbackTextarea.addEventListener("input", () => {
+    if (useMonaco) return;
+    socket.emit("codeUpdate", fallbackTextarea.value);
+  });
+}
 
 socket.on("codeUpdate", (code) => {
-  editor.value = code;
-  updateLineNumbers();
+  setCode(code, true);
 });
 
 language.addEventListener("change", () => socket.emit("languageUpdate", language.value));
-socket.on("languageUpdate", (lang) => { language.value = lang; });
+socket.on("languageUpdate", (lang) => {
+  setEditorLanguage(lang);
+});
 
-// Run
+/** Run */
 runBtn.addEventListener("click", async () => {
   if (runInFlight) return;
   runInFlight = true;
@@ -354,15 +507,14 @@ runBtn.addEventListener("click", async () => {
     const response = await fetch("/run", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ sessionId, code: editor.value, language: language.value })
+      body: JSON.stringify({ sessionId, code: getCode(), language: language.value })
     });
 
     const data = await response.json();
     const text = data.output ?? "";
     output.textContent = text;
   } catch (e) {
-    const msg = "Run failed: " + (e?.message || e);
-    output.textContent = msg;
+    output.textContent = "Run failed: " + (e?.message || e);
   } finally {
     runInFlight = false;
     setProcessing(false);
@@ -374,16 +526,15 @@ socket.on("outputUpdate", (text) => {
   output.textContent = text ?? "";
 });
 
-// Clear
+/** Clear */
 clearBtn.addEventListener("click", () => {
-  editor.value = "";
+  setCode("", false);
   output.textContent = "";
-  updateLineNumbers();
   socket.emit("codeUpdate", "");
   socket.emit("outputUpdate", "");
 });
 
-// Candidate hint
+/** Candidate hint */
 if (hintBtn) {
   hintBtn.addEventListener("click", () => {
     if (hintInFlight) return;
@@ -394,7 +545,6 @@ if (hintBtn) {
   });
 }
 
-// Hint arrives to BOTH screens from the server
 socket.on("hintResponse", ({ hint, hintsLeft }) => {
   const prefix = (typeof hintsLeft === "number")
     ? `[HINT] (${hintsLeft} left)\n`
@@ -413,7 +563,7 @@ socket.on("hintResponse", ({ hint, hintsLeft }) => {
   syncButtons();
 });
 
-// Host: Load Script
+/** Host: Load Script */
 if (loadScriptBtn && fileInput) {
   loadScriptBtn.addEventListener("click", () => fileInput.click());
 
@@ -424,9 +574,7 @@ if (loadScriptBtn && fileInput) {
     const reader = new FileReader();
     reader.onload = () => {
       const text = String(reader.result || "");
-      editor.value = text;
-      updateLineNumbers();
-      socket.emit("codeUpdate", text);
+      setCode(text, false);
 
       const guessed = guessLanguageFromFileName(f.name);
       if (guessed) {
@@ -439,20 +587,20 @@ if (loadScriptBtn && fileInput) {
   });
 }
 
-// Host: recording controls
+/** Host: recording controls */
 if (role === "host") {
   startRecBtn.addEventListener("click", () => socket.emit("startRecording"));
   stopRecBtn.addEventListener("click", () => socket.emit("stopRecording"));
 }
 
-// End session (host)
+/** End session (host) */
 if (endSessionBtn) {
   endSessionBtn.addEventListener("click", () => {
     if (confirm("End this interview session for all participants?")) socket.emit("endSession");
   });
 }
 
-// New Session (host)
+/** New Session (host) */
 if (newSessionBtn) {
   newSessionBtn.addEventListener("click", () => {
     if (!confirm("Start a new interview session? This will end the current session for the candidate.")) return;
@@ -461,7 +609,7 @@ if (newSessionBtn) {
   });
 }
 
-// Host: Load Challenge (Library or AI)
+/** Host: Load Challenge */
 async function loadChallenge() {
   if (role !== "host") return;
   if (!hostKey) {
@@ -501,19 +649,14 @@ async function loadChallenge() {
 
     if (!challenge) throw new Error("No challenge returned");
 
-    // set language + starter code into editor and sync to candidate
     const chLang = normalizeLang(challenge.language || lang);
     language.value = chLang;
     socket.emit("languageUpdate", chLang);
 
-    editor.value = String(challenge.starterCode || "");
-    updateLineNumbers();
-    socket.emit("codeUpdate", editor.value);
+    setCode(String(challenge.starterCode || ""), false);
 
-    // clear output
     output.textContent = "";
 
-    // challengeUpdate is already broadcast by the server API, but safe to ensure:
     socket.emit("challengeUpdate", {
       id: challenge.id,
       source,
@@ -535,7 +678,7 @@ if (loadChallengeBtn) {
   loadChallengeBtn.addEventListener("click", loadChallenge);
 }
 
-// Host: Solve (opens new private window with cache bust so it never goes blank/stale)
+/** ✅ Host: Solve (NO popup blockers; opens modal iframe with your existing black solve.html) */
 if (solveBtn) {
   solveBtn.addEventListener("click", () => {
     if (role !== "host") return;
@@ -544,10 +687,10 @@ if (solveBtn) {
       return;
     }
     const url = `${window.location.origin}/solve/${encodeURIComponent(sessionId)}?k=${encodeURIComponent(hostKey)}&ts=${Date.now()}`;
-    window.open(url, "_blank", "noopener,noreferrer,width=1100,height=800");
+    showSolveModal(url);
   });
 }
 
-updateLineNumbers();
 renderChallengeBox(null);
 syncButtons();
+initMonaco();
