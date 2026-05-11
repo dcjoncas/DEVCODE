@@ -9,6 +9,9 @@ const crypto = require("crypto");
 let sqlite3 = null;
 try { sqlite3 = require("sqlite3").verbose(); } catch (e) { /* ok */ }
 
+let initSqlJs = null;
+try { initSqlJs = require("sql.js"); } catch (e) { /* ok */ }
+
 // Safe fetch (Node 18+ has global fetch)
 let fetchFn = global.fetch;
 if (!fetchFn) {
@@ -117,6 +120,34 @@ function rowsToAsciiTable(rows, maxColWidth = 40) {
   const header = cols.map(c => pad(c, widths[c])).join(" | ");
   const body = rows.map(r => cols.map(c => pad(clamp(r[c]), widths[c])).join(" | "));
   return [header, sep, ...body].join("\n");
+}
+
+async function runSqlWithFallback(dbPath, stmt) {
+  if (!initSqlJs) {
+    return "SQLite runner is not available. Install dependencies with npm install and redeploy.";
+  }
+
+  const SQL = await initSqlJs();
+  const data = fs.readFileSync(dbPath);
+  const db = new SQL.Database(data);
+
+  try {
+    const result = db.exec(stmt);
+    if (!result || result.length === 0) return "(no rows)";
+
+    const first = result[0];
+    const rows = first.values.map((values) => {
+      const row = {};
+      first.columns.forEach((col, index) => {
+        row[col] = values[index];
+      });
+      return row;
+    });
+
+    return rowsToAsciiTable(rows);
+  } finally {
+    db.close();
+  }
 }
 
 // =======================
@@ -890,7 +921,7 @@ io.on("connection", (socket) => {
 // =======================
 // Runner (/run)
 // =======================
-app.post("/run", (req, res) => {
+app.post("/run", async (req, res) => {
   const { sessionId, code, language } = req.body || {};
 
   if (!sessionId) return res.json({ output: "No sessionId provided" });
@@ -936,14 +967,20 @@ app.post("/run", (req, res) => {
     }
 
     if (language === "sql") {
-      if (!sqlite3) return finish("sqlite3 module not installed. Run: npm i sqlite3");
-
       const DB_PATH = path.join(__dirname, "lineage.db");
       const raw = String(code || "");
       const stmt = raw.trim().replace(/;+\s*$/, "");
 
       const allow = /^(select|with|pragma|explain)\b/i.test(stmt);
       if (!allow) return finish("Only read queries are allowed (SELECT/WITH/PRAGMA/EXPLAIN) in this mode.");
+
+      if (!sqlite3) {
+        try {
+          return finish(await runSqlWithFallback(DB_PATH, stmt));
+        } catch (err) {
+          return finish("SQL runner error: " + err.message);
+        }
+      }
 
       const db = new sqlite3.Database(DB_PATH, sqlite3.OPEN_READONLY, (err) => {
         if (err) return finish("SQL open error: " + err.message);
